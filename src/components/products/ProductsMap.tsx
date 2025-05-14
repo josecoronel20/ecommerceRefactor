@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductCard from '../ProductCard'
+import ProductCard from './ProductCard'
 import { useProductStore } from '@/store/useProductStore'
 
 const ProductsMap = ({filtro}: {filtro: {category: string, price: number}}) => {

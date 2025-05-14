@@ -1,16 +1,12 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
-import { CardHeader } from "./ui/card";
+import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
+import { CardHeader } from "../ui/card";
 import Image from "next/image";
 import { Product } from "@/store/useProductStore";
-import { Button } from "./ui/button";
-import { CartIconWhite } from "@/assets/icons";
 import Link from "next/link";
-import { useCartStore } from "@/store/useCartStore";
-const ProductCard = ({ product }: { product: Product }) => {
-  const { addItem, items, updateItemQuantity } = useCartStore();
+import AddToCart from "./AddToCart";
 
-  const isInCart = items.some((item) => item.id === product.id);
+const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card className="hover:shadow-lg transition-all duration-150 rounded-lg overflow-hidden max-w-xs">
@@ -34,21 +30,8 @@ const ProductCard = ({ product }: { product: Product }) => {
           ${product.price}
         </CardDescription>
         
-        <Button
-          variant="violet"
-          onClick={() =>
-            isInCart ? product.quantity && updateItemQuantity(product.id, product.quantity + 1) : addItem({
-              id: product.id,
-              title: product.title,
-              price: product.price,
-              image: product.image,
-              quantity: 1,
-            })
-          }
-        >
-          <CartIconWhite />
-          Agregar
-        </Button>
+        <AddToCart product={product} />
+        
       </CardContent>
     </Card>
   );

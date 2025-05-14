@@ -2,7 +2,7 @@
 import { LoadingIcon } from "@/assets/icons";
 import { useProductStore } from "@/store/useProductStore";
 import { useEffect } from "react";
-import ProductCard from "../ProductCard";
+import ProductCard from "../products/ProductCard";
 
 const ProductosDestacados = () => {
   const { products, loading, error, fetchProducts } = useProductStore();

@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { useProductStore } from "@/store/useProductStore";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
 interface Props {
   params: {
@@ -12,6 +11,7 @@ interface Props {
 }
 
 const ProductPage = ({ params }: Props) => {
+
   const { products, loading, error, fetchProducts } = useProductStore();
   const { id } = params;
 

@@ -1,9 +1,12 @@
+"use client"
+
 import ProductosDestacados from "@/components/home/ProductosDestacados";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 
 const Home = () => {
+
   return (
     <main>
       <section className="flex flex-col items-center justify-center h-screen md:h-96 gap-5 pt-36 ">
