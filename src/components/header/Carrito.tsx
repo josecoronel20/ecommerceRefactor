@@ -45,25 +45,25 @@ const Carrito = () => {
         </DialogContent>
       </Dialog>
 
-      <div
-        className="cursor-pointer hover:bg-gray-100 rounded duration-150 ease-in-out p-2 relative"
+      <Button
+        variant="ghost"
         onClick={toggle}
       >
         {<CartIcon />}
         {totalItems > 0 && (
-          <span className="absolute top-0 right-0 text-sm font-semibold text-violet-600">
+          <span className=" text-sm font-semibold text-violet-600">
             {totalItems}
           </span>
         )}
-      </div>
+      </Button>
 
       {isOpen && (
         <div
-          className="absolute top-0 right-0 w-full h-screen bg-black/50"
+          className="absolute top-0 right-0 w-full h-screen bg-black/50 z-40"
           onClick={toggle}
         >
           <div
-            className="bg-white absolute top-0 right-0 w-1/2 h-full p-4 flex flex-col justify-between"
+            className="bg-white absolute top-0 right-0 w-full lg:w-1/2 h-full p-4 flex flex-col justify-between"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center border-b pb-4">
