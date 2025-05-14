@@ -12,6 +12,7 @@ export interface Product {
   category: string;
   popular?: boolean;
   discount: number;
+  quantity?: number;
 }
 
 interface ApiResponse {

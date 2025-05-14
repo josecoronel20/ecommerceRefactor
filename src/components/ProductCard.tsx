@@ -6,8 +6,12 @@ import { Product } from "@/store/useProductStore";
 import { Button } from "./ui/button";
 import { CartIconWhite } from "@/assets/icons";
 import Link from "next/link";
-
+import { useCartStore } from "@/store/useCartStore";
 const ProductCard = ({ product }: { product: Product }) => {
+  const { addItem, items, updateItemQuantity } = useCartStore();
+
+  const isInCart = items.some((item) => item.id === product.id);
+
   return (
     <Card className="hover:shadow-lg transition-all duration-150 rounded-lg overflow-hidden max-w-xs">
       <CardHeader>
@@ -29,8 +33,21 @@ const ProductCard = ({ product }: { product: Product }) => {
         <CardDescription className="text-lg font-bold text-violet-500">
           ${product.price}
         </CardDescription>
-        <Button variant="violet">
-          <CartIconWhite />Agregar
+        
+        <Button
+          variant="violet"
+          onClick={() =>
+            isInCart ? product.quantity && updateItemQuantity(product.id, product.quantity + 1) : addItem({
+              id: product.id,
+              title: product.title,
+              price: product.price,
+              image: product.image,
+              quantity: 1,
+            })
+          }
+        >
+          <CartIconWhite />
+          Agregar
         </Button>
       </CardContent>
     </Card>

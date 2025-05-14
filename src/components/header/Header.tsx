@@ -3,10 +3,11 @@
 import React from "react";
 import MenuNav from "./MenuNav";
 import Carrito from "./Carrito";
+import Link from "next/link";
 const Header = () => {
   return (
     <section className="flex justify-between items-center p-4 fixed w-full z-10 bg-white border-b border-gray-200">
-      <div className="text-xl font-bold text-violet-500">Violet Shop</div>
+      <Link href="/" className="text-xl font-bold text-violet-500 cursor-pointer">Violet Shop</Link>
 
       <MenuNav />
 
