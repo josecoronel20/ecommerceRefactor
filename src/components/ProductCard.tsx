@@ -15,7 +15,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <Card className="hover:shadow-lg transition-all duration-150 rounded-lg overflow-hidden max-w-xs">
       <CardHeader>
-        <Link href={`/product/${product.id}`}>
+        <Link href={`/productos/${product.id}`}>
           <Image
             src={product.image}
             alt={product.title}
