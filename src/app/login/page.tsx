@@ -1,25 +1,47 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import useIsLogged from "@/hooks/useIsLogged";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import useUserStore from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
-  const usersArray = localStorage.getItem("users");
-  const users = usersArray ? JSON.parse(usersArray) : [];
+  const { setToken, setUser } = useUserStore();
+  const router = useRouter();
+  const [inputUser, setInputUser] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    // Si no existe el array de usuarios, se crea uno vacío
+    const usersArray = JSON.parse(localStorage.getItem("users") || "[]");
+
+    // Si existe el array de usuarios, se parsea y se guarda en el estado
+    setUsers(usersArray);
+
+  }, []);
+
+  // Manejador del formulario de inicio de sesión
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Se busca el usuario en el array de usuarios
     const userIsRegistered = users.find(
-      (u: any) => u.user === user && u.password === password
+      (u: any) => u.user === inputUser && u.password === inputPassword
     );
+
+    // Si el usuario existe, se setea el token, el usuario y se redirige a la página principal
     if (userIsRegistered) {
-      localStorage.setItem("token", user);
-      window.location.href = "/";
+      try {
+        setToken(inputUser);
+        setUser(userIsRegistered);
+        router.push("/");
+      } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        setError(true);
+      }
     } else {
       setError(true);
     }
@@ -47,7 +69,7 @@ const LoginPage = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              onChange={(e) => setUser(e.target.value)}
+              onChange={(e) => setInputUser(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -63,7 +85,7 @@ const LoginPage = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setInputPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -80,7 +102,7 @@ const LoginPage = () => {
             Iniciar sesión
           </Button>
 
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" asChild>
             <Link href="/login/register">Registrarse</Link>
           </Button>
         </form>

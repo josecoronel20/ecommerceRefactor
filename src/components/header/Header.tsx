@@ -5,6 +5,7 @@ import MenuNav from "./MenuNav";
 import Carrito from "./Carrito";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import AvatarComponent from "./AvatarComponent";
 
 const Header = () => {
   const pathName = usePathname();
@@ -25,6 +26,8 @@ const Header = () => {
           <MenuNav />
 
           <Carrito />
+
+          <AvatarComponent />
         </div>
       </section>
     )

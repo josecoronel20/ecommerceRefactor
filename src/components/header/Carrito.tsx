@@ -3,6 +3,7 @@ import React from "react";
 import { CartIcon } from "@/assets/icons";
 import useToggle from "@/hooks/useToggle";
 import { useCartStore } from "@/store/useCartStore";
+import useUserStore from "@/store/useUserStore";
 import { Button } from "../ui/button";
 import CartCard from "./CartCard";
 import {
@@ -12,8 +13,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import { useRouter } from "next/navigation";
+import { Usuario, ProductoApi } from "@/types/types";
+
 
 const Carrito = () => {
+  const { user, updateUser } = useUserStore();
+  const router = useRouter();
   const { isOpen, toggle } = useToggle();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const { items, clearCart } = useCartStore();
@@ -24,12 +30,46 @@ const Carrito = () => {
   );
 
   const handleFinishPurchase = () => {
-    setShowConfirmation(true);
-    clearCart();
-    setTimeout(() => {
-      setShowConfirmation(false);
-      toggle();
-    }, 5000);
+    
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    try {
+      // Crear nueva compra
+      const nuevaCompra = {
+        id: Date.now().toString(),
+        fecha: new Date().toISOString(),
+        productos: items.map(item => ({
+          id: item.id,
+          nombre: item.title,
+          precio: item.price,
+          cantidad: item.quantity
+        })),
+        total: totalPrice
+      };
+
+      // Actualizar usuario con la nueva compra
+      const updatedUser = {
+        ...user,
+        compras: user.compras
+          ? [...user.compras, nuevaCompra]
+          : [nuevaCompra]
+      };
+
+      updateUser(updatedUser as Usuario);
+
+      // Limpiar carrito y mostrar confirmación
+      setShowConfirmation(true);
+      clearCart();
+      setTimeout(() => {
+        setShowConfirmation(false);
+        toggle();
+      }, 5000);
+    } catch (error) {
+      console.error("Error al procesar la compra:", error);
+    }
   };
 
   return (
@@ -75,7 +115,7 @@ const Carrito = () => {
 
             <div className="flex flex-col gap-4 overflow-y-auto h-[calc(100vh-20rem)] border-b pb-4">
               {items.map((item) => (
-                <CartCard key={item.id} product={item} />
+                <CartCard key={item.id} product={item as ProductoApi} />
               ))}
             </div>
 

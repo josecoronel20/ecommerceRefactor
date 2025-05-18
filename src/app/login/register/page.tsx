@@ -7,30 +7,43 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
+import useUserStore from "@/store/useUserStore";
 
 const page = () => {
-  const [user, setUser] = useState<string>("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [inputUser, setInputUser] = useState<string>("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
   const [error, setError] = useState(false);
   const [isOpen, setOpen] = useState(false);
+  const router = useRouter();
+  const { setUsers } = useUserStore();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Se obtiene el array de usuarios
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const userExists = users.find((u: any) => u.user === user);
+    // Se busca el usuario en el array de usuarios
+    const userExists = users.find((u: any) => u.user === inputUser);
+
+    // Si el usuario existe, se setea el error
     if (userExists) {
       setError(true);
     } else {
-      users.push({ user, email, password });
-      localStorage.setItem("users", JSON.stringify(users));
+      // Si el usuario no existe, se agrega al array de usuarios
+      users.push({ user: inputUser, email: inputEmail, password: inputPassword });
+
+      // Se guarda el array de usuarios en el localStorage y se actualiza el estado
+      setUsers(users);
+      // Se setea el error a false
       setError(false);
+      // Se abre el modal
       setOpen(true);
 
       setTimeout(() => {
         setOpen(false);
-        window.location.href = "/login";
-      }, 4000);
+        router.push("/login");
+      }, 1000);
     }
   };
 
@@ -56,7 +69,7 @@ const page = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              onChange={(e) => setUser(e.target.value)}
+              onChange={(e) => setInputUser(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               required
             />
@@ -73,7 +86,7 @@ const page = () => {
               type="email"
               id="email"
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setInputEmail(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               required
             />
@@ -89,7 +102,7 @@ const page = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setInputPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               required
             />
