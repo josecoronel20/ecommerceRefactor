@@ -7,21 +7,12 @@ import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const { setToken, setUser } = useUserStore();
+  const { setToken, setUser, users } = useUserStore();
   const router = useRouter();
   const [inputUser, setInputUser] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-  const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    // Si no existe el array de usuarios, se crea uno vacío
-    const usersArray = JSON.parse(localStorage.getItem("users") || "[]");
-
-    // Si existe el array de usuarios, se parsea y se guarda en el estado
-    setUsers(usersArray);
-
-  }, []);
+ 
 
   // Manejador del formulario de inicio de sesión
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

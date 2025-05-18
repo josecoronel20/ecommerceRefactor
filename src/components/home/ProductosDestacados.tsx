@@ -7,9 +7,7 @@ import ProductCard from "../products/ProductCard";
 const ProductosDestacados = () => {
   const { products, loading, error, fetchProducts } = useProductStore();
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  
 
   if (error) {
     console.log(error);

@@ -12,12 +12,8 @@ interface Props {
 
 const ProductPage = ({ params }: Props) => {
 
-  const { products, loading, error, fetchProducts } = useProductStore();
+  const { products, loading, error} = useProductStore();
   const { id } = params;
-
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
 
   if (loading) {
     return (

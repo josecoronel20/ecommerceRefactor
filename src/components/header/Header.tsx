@@ -6,11 +6,18 @@ import Carrito from "./Carrito";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AvatarComponent from "./AvatarComponent";
+import { useProductStore } from "@/store/useProductStore";
+import { useEffect } from "react";
 
 const Header = () => {
+  const { fetchProducts } = useProductStore();
   const pathName = usePathname();
   const isLoginOrRegister =
     pathName === "/login" || pathName === "/login/register";
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     !isLoginOrRegister && (

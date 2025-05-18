@@ -13,9 +13,6 @@ const Productos = () => {
     price: 0,
   });
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return (
     <main className="p-4 pt-28 flex flex-col gap-4">

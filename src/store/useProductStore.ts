@@ -18,6 +18,7 @@ export const useProductStore = create<ProductStore>((set) => ({
   products: [],
   loading: false,
   error: null,
+
   fetchProducts: async () => {
     try {
       set({ loading: true, error: null });

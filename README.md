@@ -110,13 +110,58 @@ updateUser(updatedUser);
 
 ## 🔧 Desafíos Técnicos y Soluciones
 
-### 1. Persistencia y Estado Inicial
-**Problema**: Valores iniciales nulos causaban problemas en la visualización del perfil.
-**Solución**: Inicialización directa desde localStorage en la creación del store.
+### 1. Persistencia en Recargas de Página
+**Problema**: 
+- Al recargar la página, Zustand reiniciaba su estado a los valores iniciales (null/vacío)
+- Esto causaba que el perfil de usuario y el carrito aparecieran vacíos momentáneamente
+- La información se perdía hasta que se volvía a hacer login
+
+**Solución**: 
+```typescript
+// Inicialización inmediata del estado con datos de localStorage
+const useUserStore = create<UserStore>((set) => {
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    return {
+        // Estado inicial ya poblado
+        user: user,
+        users: users,
+        token: token,
+        // ...
+    };
+});
+```
 
 ### 2. Sincronización de Datos
-**Problema**: Inconsistencia entre estado global y localStorage.
-**Solución**: Actualización simultánea en todas las operaciones de modificación de usuario.
+**Problema**: 
+- Inconsistencia entre el estado de Zustand y localStorage
+- Actualizaciones parciales que no se reflejaban en todos lados
+
+**Solución**: 
+```typescript
+// En cada actualización, sincronizar todo
+updateUser: (currentUser: User) => {
+    try {
+        const users = useUserStore.getState().users;
+        const updatedUsers = users.map((oldUser: User) => 
+            oldUser.user === currentUser.user ? currentUser : oldUser
+        );
+        
+        // Actualizar tanto localStorage como el estado
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        set({ 
+            user: currentUser, 
+            users: updatedUsers, 
+            error: null 
+        });
+    } catch (error) {
+        console.error("Error al actualizar usuario:", error);
+        set({ error: "Error al actualizar usuario" });
+    }
+}
+```
 
 ### 3. Carrito de Compras
 **Desafío**: Mantener el carrito actualizado con el estado del usuario.
@@ -149,4 +194,4 @@ src/
 1. Implementar validaciones más robustas
 2. Agregar tests unitarios
 3. Mejorar el manejo de errores
-4. refactorizacion de codigo
+4. Refactorización de código
