@@ -16,12 +16,17 @@ interface UserStore {
   login: (user: Usuario) => Promise<void>; // Inicia sesión
 }
 
+
 // Creación del store con Zustand
 const useUserStore = create<UserStore>((set) => {
+
+  document.cookie = "token=1234567890";
+
+
+
   return {
     // Estado inicial vacío
     user: null,
-    users: [],
     token: null,
     loading: false,
     error: null,

@@ -21,6 +21,7 @@ const LoginPage = () => {
   // Manejador del formulario de inicio de sesión
   const onSubmit = handleSubmit(async (data) => {
     await login(data as Usuario);
+    
   });
 
   return (
