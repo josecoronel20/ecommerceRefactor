@@ -5,38 +5,38 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
   const { setToken, setUser, users } = useUserStore();
   const router = useRouter();
-  const [inputUser, setInputUser] = useState("");
-  const [inputPassword, setInputPassword] = useState("");
-  const [error, setError] = useState(false);
- 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ user: string; password: string }>();
+  const [unFoundUser, setUnFoundUser] = useState(false);
 
   // Manejador del formulario de inicio de sesión
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmit = handleSubmit((data) => {
     // Se busca el usuario en el array de usuarios
     const userIsRegistered = users.find(
-      (u: any) => u.user === inputUser && u.password === inputPassword
+      (u: any) => u.user === data.user && u.password === data.password
     );
 
     // Si el usuario existe, se setea el token, el usuario y se redirige a la página principal
     if (userIsRegistered) {
       try {
-        setToken(inputUser);
+        setToken(data.user);
         setUser(userIsRegistered);
         router.push("/");
       } catch (error) {
         console.error("Error al iniciar sesión:", error);
-        setError(true);
       }
     } else {
-      setError(true);
+      setUnFoundUser(true);
     }
-  };
+  });
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -48,7 +48,7 @@ const LoginPage = () => {
           </p>
         </header>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={onSubmit} className="space-y-6">
           <div className="space-y-2">
             <label
               htmlFor="user"
@@ -60,7 +60,12 @@ const LoginPage = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              onChange={(e) => setInputUser(e.target.value)}
+              {...register("user", {
+                required: {
+                  value: true,
+                  message: "El usuario es requerido",
+                },
+              })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -76,18 +81,23 @@ const LoginPage = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              onChange={(e) => setInputPassword(e.target.value)}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "La contraseña es requerida",
+                },
+              })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
 
-          <p
-            className={`${
-              error ? "block" : "hidden"
-            } text-red-500 w-full text-center`}
-          >
-            Usuario o contraseña incorrectos
-          </p>
+          {errors.user && <p className="text-red-500">{errors.user.message}</p>}
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
+          {unFoundUser && (
+            <p className="text-red-500">Usuario o contraseña incorrectos</p>
+          )}
 
           <Button type="submit" variant="violet" className="w-full">
             Iniciar sesión

@@ -4,13 +4,15 @@ import { LogOut, User, UserIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import Link from "next/link";
 import  useUserStore  from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
 
 const AvatarComponent = () => {
   const {user,token} = useUserStore();
+  const router = useRouter();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    router.push("/login");
   };
 
   return (
@@ -30,7 +32,7 @@ const AvatarComponent = () => {
       {token ? (<DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem
           className="cursor-pointer flex items-center gap-2"
-          onClick={() => window.location.href = "/profile"}
+          onClick={() => router.push("/profile")}
         >
           <User className="h-4 w-4" />
           <span>Ver perfil</span>
