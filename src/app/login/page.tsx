@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { Usuario } from "@/types/types";
 
 const LoginPage = () => {
-  const { setToken, setUser, users } = useUserStore();
+  const { login } = useUserStore();
   const router = useRouter();
   const {
     register,
@@ -18,24 +19,9 @@ const LoginPage = () => {
   const [unFoundUser, setUnFoundUser] = useState(false);
 
   // Manejador del formulario de inicio de sesión
-  const onSubmit = handleSubmit((data) => {
-    // Se busca el usuario en el array de usuarios
-    const userIsRegistered = users.find(
-      (u: any) => u.user === data.user && u.password === data.password
-    );
-
-    // Si el usuario existe, se setea el token, el usuario y se redirige a la página principal
-    if (userIsRegistered) {
-      try {
-        setToken(data.user);
-        setUser(userIsRegistered);
-        router.push("/");
-      } catch (error) {
-        console.error("Error al iniciar sesión:", error);
-      }
-    } else {
-      setUnFoundUser(true);
-    }
+  const onSubmit = handleSubmit(async (data) => {
+    await login(data as Usuario);
+    
   });
 
   return (

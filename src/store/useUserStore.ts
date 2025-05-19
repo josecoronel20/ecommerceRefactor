@@ -13,26 +13,27 @@ interface UserStore {
   setUsers: (users: Usuario[]) => void; // Setea la lista de usuarios
   updateUser: (currentUser: Usuario) => void; // Actualiza datos del usuario
   logout: () => void; // Cierra la sesión del usuario
+  login: (user: Usuario) => Promise<void>; // Inicia sesión
 }
+
 
 // Creación del store con Zustand
 const useUserStore = create<UserStore>((set) => {
-  const users = JSON.parse(localStorage.getItem("users") || "[]");
-  const token = localStorage.getItem("token");
-  const user = users.find((user: Usuario) => user.user === token);
+
+  document.cookie = "token=1234567890";
+
+
 
   return {
     // Estado inicial vacío
-    user: user,
-    users: users,
-    token: token,
+    user: null,
+    token: null,
     loading: false,
     error: null,
 
     // Setea el token de autenticación
     setToken: (token: string) => {
       try {
-        localStorage.setItem("token", token);
         set({ token });
       } catch (error) {
         console.error("Error al setear token:", error);
@@ -43,11 +44,6 @@ const useUserStore = create<UserStore>((set) => {
     // Setea el usuario actual
     setUser: (userForLogin: Usuario) => {
       try {
-        const currentUsers = useUserStore.getState().users;
-        const usersUpdated = currentUsers.map((user: Usuario) =>
-          user.user === userForLogin.user ? userForLogin : user
-        );
-        localStorage.setItem("users", JSON.stringify(usersUpdated));
         set({ user: userForLogin, error: null });
       } catch (error) {
         console.error("Error al setear usuario:", error);
@@ -58,7 +54,6 @@ const useUserStore = create<UserStore>((set) => {
     // Setea la lista de usuarios
     setUsers: (users: Usuario[]) => {
       try {
-        localStorage.setItem("users", JSON.stringify(users));
         set({ users, error: null });
       } catch (error) {
         console.error("Error al setear usuarios:", error);
@@ -74,7 +69,6 @@ const useUserStore = create<UserStore>((set) => {
           oldUser.user === currentUser.user ? currentUser : oldUser
         );
 
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
         set({ user: currentUser, users: updatedUsers, error: null });
       } catch (error) {
         console.error("Error al actualizar usuario:", error);
@@ -85,7 +79,6 @@ const useUserStore = create<UserStore>((set) => {
     // Cierra la sesión del usuario
     logout: () => {
       try {
-        localStorage.removeItem("token");
         set({
           user: null,
           token: null,
@@ -94,6 +87,20 @@ const useUserStore = create<UserStore>((set) => {
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
         set({ error: "Error al cerrar sesión" });
+      }
+    },
+    
+    login: async (user: Usuario) => {
+      try {
+        return await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user)
+        });
+      } catch (error) {
+        console.error("Error al iniciar sesión:", error);
       }
     },
   };
