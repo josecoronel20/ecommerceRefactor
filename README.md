@@ -1,3 +1,4 @@
+
 ## 💻 Tecnologías Utilizadas
 
 - **Next.js 14**: Framework de React para renderizado del lado del servidor
@@ -195,3 +196,4 @@ src/
 2. Agregar tests unitarios
 3. Mejorar el manejo de errores
 4. Refactorización de código
+
