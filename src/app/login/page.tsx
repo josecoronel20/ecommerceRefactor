@@ -6,7 +6,7 @@ import React, {  useState } from "react";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Usuario } from "@/types/types";
+import { UserLogin } from "@/types/types";
 
 const LoginPage = () => {
   const { login } = useUserStore();
@@ -20,8 +20,17 @@ const LoginPage = () => {
 
   // Manejador del formulario de inicio de sesión
   const onSubmit = handleSubmit(async (data) => {
-    await login(data as Usuario);
-    
+    try {
+      const response = await login(data as UserLogin);
+      if (response.ok) {
+        router.push("/");
+      } else {
+        setUnFoundUser(true);
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      setUnFoundUser(true);
+    }
   });
 
   return (

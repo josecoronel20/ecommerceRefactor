@@ -1,26 +1,5 @@
 import { create } from "zustand";
-
-export interface CartItem {
-    id: number;
-    title: string;
-    price: number;
-    image: string;
-    quantity: number;
-}
-
-interface CartState {
-    items: CartItem[];
-    addItem: (item: CartItem) => void;
-    removeItem: (id: number) => void;
-    clearCart: () => void;
-}
-
-interface CartActions {
-    addItem: (item: CartItem) => void;
-    removeItem: (id: number) => void;
-    clearCart: () => void;
-    updateItemQuantity: (id: number, quantity: number) => void;
-}
+import { CartState, CartActions } from "@/types/types";
 
 export const useCartStore = create<CartState & CartActions>((set) => ({
     items: [],

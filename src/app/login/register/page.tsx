@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,32 +10,36 @@ import {
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
 import { useForm } from "react-hook-form";
+import { UserRegister } from "@/types/types";
 
 const page = () => {
+  const { token } = useUserStore();
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
-  const { setUsers } = useUserStore();
-  const { register, handleSubmit, formState: { errors } } = useForm<{ user: string; email: string; password: string }>();
+  const { setUsers, register: registerUser } = useUserStore();
+  const {
+    register: registerField,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ user: string; email: string; password: string }>();
 
-  const onSubmit = handleSubmit((data) => {
-    // Se obtiene el array de usuarios
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    // Se busca el usuario en el array de usuarios
-    const userExists = users.find((u: any) => u.user === data.user);
 
-    // Si el usuario existe, se setea el error
-    if (!errors.user || !errors.email || !errors.password || !userExists) {
-      // Si el usuario no existe, se agrega al array de usuarios
-      users.push({ user: data.user, email: data.email, password: data.password });
-      // Se guarda el array de usuarios en el localStorage y se actualiza el estado
-      setUsers(users);
-      // Se abre el modal
-      setOpen(true);
+  const onSubmit = handleSubmit(async (data) => {
 
-      setTimeout(() => {
-        setOpen(false);
-        router.push("/login");
-      }, 1000);
+    try {
+      const response = await registerUser(data as UserRegister);
+
+      if (response.ok) {
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+          router.push("/login");
+        }, 2000);
+      } else {
+        console.error("Error al registrar:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al registrar:", error);
     }
   });
 
@@ -61,7 +65,7 @@ const page = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              {...register("user", { 
+              {...registerField("user", {
                 required: {
                   value: true,
                   message: "El usuario es requerido",
@@ -82,7 +86,7 @@ const page = () => {
               type="email"
               id="email"
               placeholder="Email"
-              {...register("email", { 
+              {...registerField("email", {
                 required: {
                   value: true,
                   message: "El email es requerido",
@@ -102,7 +106,7 @@ const page = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              {...register("password", { 
+              {...registerField("password", {
                 required: {
                   value: true,
                   message: "La contraseña es requerida",
@@ -121,7 +125,9 @@ const page = () => {
           </div>
 
           {errors.user && <p className="text-red-500">{errors.user.message}</p>}
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
           {errors.password && (
             <p className="text-red-500">{errors.password.message}</p>
           )}
@@ -140,4 +146,3 @@ const page = () => {
 };
 
 export default page;
-

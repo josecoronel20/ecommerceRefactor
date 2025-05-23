@@ -1,18 +1,19 @@
-export interface Compra {
+export interface Purchase {
     id: string;
-    fecha: string;
-    productos: Producto[];
+    date: string;
+    products: ApiProduct[];
     total: number;
 }
 
-export interface Producto {
-    id: string;
-    nombre: string;
-    precio: number;
-    cantidad: number;
+export interface CartProduct {
+    id: number;
+    title: string;
+    price: number;
+    quantity: number;
+    image: string;
 }
 
-export interface ProductoApi {
+export interface ApiProduct {
     id: number;
     title: string;
     image: string;
@@ -28,15 +29,55 @@ export interface ProductoApi {
   }
   
 
-export interface Usuario {
+export interface User {
+    id: number;
     user: string;
+    nickname?: string;
     email: string;
     image?: string;
     password: string;
-    compras?: Compra[];
+    purchases?: Purchase[];
 }
 
-export interface Usuarios {
-    users: Usuario[];
+export interface Users {
+    users: User[];
 }
 
+export interface UserRegister {
+    user: string;
+    email: string;
+    password: string;
+}
+
+export interface UserLogin {
+    user: string;
+    password: string;
+}
+
+export interface LoginUserResponse {
+    user: User;
+    token: string;
+}
+
+// Cart
+export interface CartItem {
+    id: number;
+    title: string;
+    price: number;
+    image: string;
+    quantity: number;
+}
+
+export interface CartState {
+    items: CartItem[];
+    addItem: (item: CartItem) => void;
+    removeItem: (id: number) => void;
+    clearCart: () => void;
+}
+
+export interface CartActions {
+    addItem: (item: CartItem) => void;
+    removeItem: (id: number) => void;
+    clearCart: () => void;
+    updateItemQuantity: (id: number, quantity: number) => void;
+}

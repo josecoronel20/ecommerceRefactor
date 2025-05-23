@@ -4,7 +4,7 @@ import { CartIcon } from "@/assets/icons";
 import useToggle from "@/hooks/useToggle";
 import { useCartStore } from "@/store/useCartStore";
 import useUserStore from "@/store/useUserStore";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import CartCard from "./CartCard";
 import {
   Dialog,
@@ -12,12 +12,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
+} from "../../ui/dialog";
 import { useRouter } from "next/navigation";
-import { Usuario, ProductoApi } from "@/types/types";
+import { User, ApiProduct, CartProduct } from "@/types/types";
 
-
-const Carrito = () => {
+const Cart = () => {
   const { user, updateUser } = useUserStore();
   const router = useRouter();
   const { isOpen, toggle } = useToggle();
@@ -30,35 +29,29 @@ const Carrito = () => {
   );
 
   const handleFinishPurchase = () => {
-    
-    if (!user) {
-      router.push("/login");
-      return;
-    }
-
     try {
       // Crear nueva compra
       const nuevaCompra = {
         id: Date.now().toString(),
-        fecha: new Date().toISOString(),
-        productos: items.map(item => ({
+        date: new Date().toISOString(),
+        products: items.map((item) => ({
           id: item.id,
-          nombre: item.title,
-          precio: item.price,
-          cantidad: item.quantity
+          title: item.title,
+          price: item.price,
+          quantity: item.quantity,
         })),
-        total: totalPrice
+        total: totalPrice,
       };
 
       // Actualizar usuario con la nueva compra
       const updatedUser = {
         ...user,
-        compras: user.compras
-          ? [...user.compras, nuevaCompra]
-          : [nuevaCompra]
+        purchases: user?.purchases
+          ? [...user.purchases, nuevaCompra]
+          : [nuevaCompra],
       };
 
-      updateUser(updatedUser as Usuario);
+      updateUser(updatedUser as User);
 
       // Limpiar carrito y mostrar confirmación
       setShowConfirmation(true);
@@ -85,10 +78,7 @@ const Carrito = () => {
         </DialogContent>
       </Dialog>
 
-      <Button
-        variant="ghost"
-        onClick={toggle}
-      >
+      <Button variant="ghost" onClick={toggle}>
         {<CartIcon />}
         {totalItems > 0 && (
           <span className=" text-sm font-semibold text-violet-600">
@@ -115,7 +105,7 @@ const Carrito = () => {
 
             <div className="flex flex-col gap-4 overflow-y-auto h-[calc(100vh-20rem)] border-b pb-4">
               {items.map((item) => (
-                <CartCard key={item.id} product={item as ProductoApi} />
+                <CartCard key={item.id} product={item as CartProduct} />
               ))}
             </div>
 
@@ -155,4 +145,4 @@ const Carrito = () => {
   );
 };
 
-export default Carrito;
+export default Cart;

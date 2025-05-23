@@ -1,8 +1,8 @@
 "use client";
 
 import { LoadingIcon } from "@/assets/icons";
-import Filter from "@/components/products/Filter";
-import ProductsMap from "@/components/products/ProductsMap";
+import Filter from "@/app/productos/components/Filter";
+import ProductsMap from "@/app/productos/components/ProductsMap";
 import { useProductStore } from "@/store/useProductStore";
 import React, { useEffect, useState } from "react";
 

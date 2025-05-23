@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { MenuIcon } from "@/assets/icons";
 import useToggle from "@/hooks/useToggle";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 const MenuNav = () => {
   const { isOpen, toggle } = useToggle(); 

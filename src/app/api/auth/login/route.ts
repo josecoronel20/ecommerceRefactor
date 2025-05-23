@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from 'fs/promises';
 import path from 'path';
-import { Usuario } from "@/types/types";
+import { User } from "@/types/types";
 import jwt from 'jsonwebtoken';
+import Cookies from 'js-cookie'
 
 
 async function readDbFile() {
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
         const db = await readDbFile();
         
         // Find the user
-        const foundUser = db.users.find((u: Usuario) => u.user === user && u.password === password);
+        const foundUser: User = db.users.find((u: User) => u.user === user && u.password === password);
         
         if (!foundUser) {
             return NextResponse.json(
@@ -29,10 +30,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        console.log('Body JWT', {user: foundUser.user})
-        const userToken = jwt.sign({ user: foundUser.user }, 'jose-falopero')
-        console.log('User Token', userToken)
-    
+        const userToken = jwt.sign({ user: foundUser.user }, 'secret-key')
+
+        //retorna el usuario
         return NextResponse.json({
             user: foundUser,
             token: userToken

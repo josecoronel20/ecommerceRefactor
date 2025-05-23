@@ -1,6 +1,6 @@
 "use client"
 
-import ProductosDestacados from "@/components/home/ProductosDestacados";
+import ProductosDestacados from "@/app/componentsHome/ProductosDestacados";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";

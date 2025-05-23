@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "../ui/button";
-import { Product } from "@/store/useProductStore";
-import { useCartStore, CartItem } from "@/store/useCartStore";
+import { Button } from "../../../components/ui/button";
+import { CartProduct, ApiProduct } from "@/types/types";
+import { useCartStore } from "@/store/useCartStore";
 import { CartIconWhite } from "@/assets/icons";
 import {
   Dialog,
@@ -13,11 +13,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import useUserStore from "@/store/useUserStore";
 
-const AddToCart = ({ product }: { product: Product }) => {
+const AddToCart = ({ product }: { product: ApiProduct }) => {
   const { items, addItem, updateItemQuantity } = useCartStore();
-  const isInCart = items.some((item: CartItem) => item.id === product.id);
-  const isLoggedIn = localStorage.getItem("token") !== null;
+  const isInCart = items.some((item: CartProduct) => item.id === product.id);
+  const { token } = useUserStore();
 
   const handleAddToCart = () => {
     if (isInCart && product.quantity) {
@@ -33,7 +34,7 @@ const AddToCart = ({ product }: { product: Product }) => {
     }
   };
 
-  return isLoggedIn ? (
+  return token ? (
     <Button variant="violet" onClick={handleAddToCart}>
       <CartIconWhite />
       Agregar

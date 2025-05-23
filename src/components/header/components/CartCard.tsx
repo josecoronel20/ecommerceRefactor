@@ -1,10 +1,10 @@
 import React from "react";
 import { useCartStore } from "@/store/useCartStore";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import { Product } from "@/store/useProductStore";
+import { Button } from "../../ui/button";
+import { CartProduct } from "@/types/types";
 
-const CartCard = ({ product }: { product: Product }) => {
+const CartCard = ({ product }: { product: CartProduct }) => {
   const { removeItem, updateItemQuantity } = useCartStore();
 
   const handleRemoveItem = () => {

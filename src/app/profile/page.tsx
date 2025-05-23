@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import InfoUserSection from "../../components/profile/InfoUserSection";
-import HistorySection from "../../components/profile/HistorySection";
+import InfoUserSection from "./components/InfoUserSection";
+import HistorySection from "./components/HistorySection";
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 
