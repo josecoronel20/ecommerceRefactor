@@ -1,12 +1,12 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardTitle } from "../../../components/ui/card";
-import { CardHeader } from "../../../components/ui/card";
+import { Card, CardContent, CardDescription, CardTitle } from "../../../../components/ui/card";
+import { CardHeader } from "../../../../components/ui/card";
 import Image from "next/image";
-import { Product } from "@/store/useProductStore";
+import { ApiProduct } from "@/types/types";
 import Link from "next/link";
-import AddToCart from "./AddToCart";
+import AddToCart from "../AddToCart";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: ApiProduct }) => {
 
   return (
     <Card className="hover:shadow-lg transition-all duration-150 rounded-lg overflow-hidden max-w-xs">

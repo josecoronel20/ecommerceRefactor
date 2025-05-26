@@ -3,7 +3,6 @@ import React from "react";
 import { CartIcon } from "@/assets/icons";
 import useToggle from "@/hooks/useToggle";
 import { useCartStore } from "@/store/useCartStore";
-import useUserStore from "@/store/useUserStore";
 import { Button } from "../../ui/button";
 import CartCard from "./CartCard";
 import {
@@ -13,12 +12,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
-import { useRouter } from "next/navigation";
-import { User, ApiProduct, CartProduct } from "@/types/types";
+import { CartProduct, User } from "@/types/types";
+import useUserInfo from "@/hooks/useUserInfo";
+import { updateUser } from "@/lib/apiUser";
 
 const Cart = () => {
-  const { user, updateUser } = useUserStore();
-  const router = useRouter();
+  const { userInfo, mutate } = useUserInfo();
   const { isOpen, toggle } = useToggle();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const { items, clearCart } = useCartStore();
@@ -45,14 +44,15 @@ const Cart = () => {
 
       // Actualizar usuario con la nueva compra
       const updatedUser = {
-        ...user,
-        purchases: user?.purchases
-          ? [...user.purchases, nuevaCompra]
+        ...userInfo,
+        purchases: userInfo?.purchases
+          ? [...userInfo.purchases, nuevaCompra]
           : [nuevaCompra],
       };
 
       updateUser(updatedUser as User);
-
+      mutate(updatedUser as User);
+      
       // Limpiar carrito y mostrar confirmación
       setShowConfirmation(true);
       clearCart();

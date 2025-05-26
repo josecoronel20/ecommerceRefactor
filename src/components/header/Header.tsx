@@ -3,23 +3,17 @@
 import React from "react";
 import MenuNav from "./components/MenuNav";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import AvatarComponent from "./components/AvatarComponent";
-import { useProductStore } from "@/store/useProductStore";
 import { useEffect } from "react";
 import Cart from "./components/Cart";
+import useUserInfo from "@/hooks/useUserInfo";
 
 const Header = () => {
-  const { fetchProducts } = useProductStore();
+  //todo:mudar el fetching productos a componentes productos destacados
   const pathName = usePathname();
   const isLoginOrRegister =
     pathName === "/login" || pathName === "/login/register";
-    
-  
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
 
   return (
     !isLoginOrRegister && (

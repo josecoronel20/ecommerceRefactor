@@ -1,33 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
-import useUserStore from "@/store/useUserStore";
 import { useForm } from "react-hook-form";
 import { UserRegister } from "@/types/types";
+import { register } from "@/lib/apiUser";
 
 const page = () => {
-  const { token } = useUserStore();
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
-  const { setUsers, register: registerUser } = useUserStore();
+
   const {
     register: registerField,
     handleSubmit,
     formState: { errors },
   } = useForm<{ user: string; email: string; password: string }>();
 
-
   const onSubmit = handleSubmit(async (data) => {
-
     try {
-      const response = await registerUser(data as UserRegister);
+      const response = await register(data as UserRegister);
 
       if (response.ok) {
         setOpen(true);
@@ -35,8 +27,6 @@ const page = () => {
           setOpen(false);
           router.push("/login");
         }, 2000);
-      } else {
-        console.error("Error al registrar:", response.statusText);
       }
     } catch (error) {
       console.error("Error al registrar:", error);

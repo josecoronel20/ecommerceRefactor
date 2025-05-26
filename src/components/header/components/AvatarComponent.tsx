@@ -3,13 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { LogOut, User, UserIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import Link from "next/link";
-import  useUserStore  from "@/store/useUserStore";
-import { useRouter } from "next/navigation";
 import Cookies from 'js-cookie'
+import { useRouter } from "next/navigation";
+import useUserInfo from "@/hooks/useUserInfo";
 
 const AvatarComponent = () => {
-  const {user, token} = useUserStore();
   const router = useRouter();
+  const { userInfo } = useUserInfo();
 
   const handleLogout = () => {
     Cookies.remove('token')
@@ -20,8 +20,8 @@ const AvatarComponent = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          {token && user?.image ? (
-            <AvatarImage src={user.image} onClick={() => console.log(token)}/>
+          {userInfo && userInfo.image ? (
+            <AvatarImage src={userInfo.image} onClick={() => console.log(userInfo.image)}/>
           ) : (
             <AvatarFallback>
               <UserIcon />
@@ -30,7 +30,7 @@ const AvatarComponent = () => {
         </Avatar>
       </DropdownMenuTrigger>
 
-      {token ? (<DropdownMenuContent align="end" className="w-56">
+      {userInfo ? (<DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem
           className="cursor-pointer flex items-center gap-2"
           onClick={() => router.push("/profile")}

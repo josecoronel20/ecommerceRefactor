@@ -1,18 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import InfoUserSection from "./components/InfoUserSection";
 import HistorySection from "./components/HistorySection";
-import useUserStore from "@/store/useUserStore";
-import { useRouter } from "next/navigation";
+import useUserInfo from "@/hooks/useUserInfo";
+import { logout } from "@/lib/apiUser";
 
-const PerfilUsuario = () => {
-  const { user } = useUserStore();
-  const router = useRouter();
+const UserProfile = () => {
+  const { userInfo } = useUserInfo();
 
-  if(!user){
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (!userInfo) {
+      logout();
+    }
+  }, [userInfo]);
+
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4 pt-24 gap-4">
@@ -23,4 +25,4 @@ const PerfilUsuario = () => {
   );
 };
 
-export default PerfilUsuario;
+export default UserProfile;

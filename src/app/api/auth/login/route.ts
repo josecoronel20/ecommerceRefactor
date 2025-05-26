@@ -3,7 +3,6 @@ import fs from 'fs/promises';
 import path from 'path';
 import { User } from "@/types/types";
 import jwt from 'jsonwebtoken';
-import Cookies from 'js-cookie'
 
 
 async function readDbFile() {
@@ -30,7 +29,11 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const userToken = jwt.sign({ user: foundUser.user }, 'secret-key')
+        const userToken = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET as string,
+            {
+                expiresIn: '1h'
+            }
+        )
 
         //retorna el usuario
         return NextResponse.json({

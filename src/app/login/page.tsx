@@ -2,14 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, {  useState } from "react";
-import useUserStore from "@/store/useUserStore";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { UserLogin } from "@/types/types";
+import { login } from "@/lib/apiUser";
+import useUserStore from "@/store/useUserStore";
 
 const LoginPage = () => {
-  const { login } = useUserStore();
   const router = useRouter();
   const {
     register,
@@ -17,12 +17,11 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<{ user: string; password: string }>();
   const [unFoundUser, setUnFoundUser] = useState(false);
-
   // Manejador del formulario de inicio de sesión
   const onSubmit = handleSubmit(async (data) => {
     try {
       const response = await login(data as UserLogin);
-      if (response.ok) {
+      if (response.user) {
         router.push("/");
       } else {
         setUnFoundUser(true);

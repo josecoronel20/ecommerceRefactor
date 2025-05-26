@@ -16,14 +16,8 @@ const MenuNav = () => {
       label: "Productos",
       href: "/productos",
     },
-    {
-      label: "Categorias",
-      href: "/categorias",
-    },
-    {
-      label: "Ofertas",
-      href: "/ofertas",
-    },
+    
+    
   ];
 
   const LinkComponent = ({ label, href }: { label: string; href: string }) => {

@@ -15,8 +15,9 @@ export async function GET(
 ) {
   try {
     const { id } = params;
+    const idToNumber = parseInt(id);
     const db = await readDbFile();
-    const user = db.users.find((user: any) => user.id === id);
+    const user = db.users.find((user: any) => user.id === idToNumber);
     return NextResponse.json(user);
   } catch (error) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });

@@ -1,8 +1,14 @@
-import { Slider } from "@/components/ui/slider"
-import { useProductStore } from "@/store/useProductStore";
+import { Slider } from "@/components/ui/slider";
+import { fetcher } from "@/hooks/useUserInfo";
+import { ApiProduct } from "@/types/types";
 import React, { useEffect, useState } from "react";
+import useSWR from "swr";
 
-const Filter = ({setFilter}: {setFilter: (filter: {category: string, price: number}) => void}) => {
+const Filter = ({
+  setFilter,
+}: {
+  setFilter: (filter: { category: string; price: number }) => void;
+}) => {
   const categories = [
     "Todas",
     "tv",
@@ -14,7 +20,7 @@ const Filter = ({setFilter}: {setFilter: (filter: {category: string, price: numb
   ];
 
   const [category, setCategory] = useState("Todas");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(3000);
 
   useEffect(() => {
     setFilter({
@@ -23,17 +29,29 @@ const Filter = ({setFilter}: {setFilter: (filter: {category: string, price: numb
     });
   }, [category, price]);
 
-  const {products} = useProductStore()
-  const maxPrice = products.reduce((max, product) => Math.max(max, product.price), 0);
+  const { data } = useSWR("https://fakestoreapi.in/api/products", fetcher);
+
+  const maxPrice =
+    data &&
+    data.products.reduce(
+      (max: number, product: ApiProduct) => Math.max(max, product.price),
+      0
+    );
 
   return (
     <section className="flex flex-col gap-4 border border-gray-300 rounded-md p-4 min-w-[300px] h-fit">
       <h2 className="text-2xl font-bold text-violet-600">Filtros</h2>
       <div className="flex flex-col gap-4">
-        
         <div className="flex flex-col gap-2">
-          <label htmlFor="category" className="text-lg  text-violet-600">Categoría</label>
-          <select id="category" value={category} onChange={(e) => setCategory(e.target.value)} className="border border-gray-300 rounded-md p-1">
+          <label htmlFor="category" className="text-lg  text-violet-600">
+            Categoría
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border border-gray-300 rounded-md p-1"
+          >
             {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -43,9 +61,14 @@ const Filter = ({setFilter}: {setFilter: (filter: {category: string, price: numb
         </div>
 
         <div className="flex flex-col gap-2">
-            <h3 className="text-lg text-violet-600">Precio</h3>
-            <p className="text-sm text-gray-500">Hasta ${price}</p>
-            <Slider step={1} max={maxPrice} defaultValue={[3000]} onValueChange={(value) => setPrice(value[0])} />
+          <h3 className="text-lg text-violet-600">Precio</h3>
+          <p className="text-sm text-gray-500">Hasta ${price}</p>
+          <Slider
+            step={1}
+            max={maxPrice}
+            defaultValue={[3000]}
+            onValueChange={(value) => setPrice(value[0])}
+          />
         </div>
       </div>
     </section>

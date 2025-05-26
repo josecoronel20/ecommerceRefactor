@@ -14,16 +14,20 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import useUserStore from "@/store/useUserStore";
+import useSWR from "swr";
+import useUserInfo from "@/hooks/useUserInfo";
 
 const AddToCart = ({ product }: { product: ApiProduct }) => {
   const { items, addItem, updateItemQuantity } = useCartStore();
   const isInCart = items.some((item: CartProduct) => item.id === product.id);
-  const { token } = useUserStore();
+  const { userInfo } = useUserInfo();
 
   const handleAddToCart = () => {
+    // Si el producto ya está en el carrito, se actualiza la cantidad
     if (isInCart && product.quantity) {
       updateItemQuantity(product.id, product.quantity + 1);
     } else {
+      // Si el producto no está en el carrito, se agrega
       addItem({
         id: product.id,
         title: product.title,
@@ -34,33 +38,38 @@ const AddToCart = ({ product }: { product: ApiProduct }) => {
     }
   };
 
-  return token ? (
-    <Button variant="violet" onClick={handleAddToCart}>
-      <CartIconWhite />
-      Agregar
-    </Button>
-  ) : (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="violet">
+  return (
+    <>
+      {userInfo ? (
+        <Button variant="violet" onClick={handleAddToCart}>
           <CartIconWhite />
           Agregar
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Iniciar Sesión Requerido</DialogTitle>
-          <DialogDescription>
-            Para agregar productos al carrito, necesitas iniciar sesión primero.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="violet">
-            <Link href="/login">Iniciar Sesión</Link>
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      ) : (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="violet">
+              <CartIconWhite />
+              Agregar
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Iniciar Sesión Requerido</DialogTitle>
+              <DialogDescription>
+                Para agregar productos al carrito, necesitas iniciar sesión
+                primero.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="violet">
+                <Link href="/login">Iniciar Sesión</Link>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 };
 
