@@ -29,21 +29,19 @@ const Filter = ({
     });
   }, [category, price]);
 
-  const { data } = useSWR("https://fakestoreapi.in/api/products", productFetcher);
+  const { data, error } = useSWR("https://fakestoreapi.in/api/products", productFetcher);
 
-  const maxPrice =
-    data &&
-    data.products.reduce(
-      (max: number, product: ApiProduct) => Math.max(max, product.price),
-      0
-    );
+  const maxPrice = data?.products?.reduce(
+    (max: number, product: ApiProduct) => Math.max(max, product.price),
+    0
+  ) || 3000;
 
   return (
     <section className="flex flex-col gap-4 border border-gray-300 rounded-md p-4 min-w-[300px] h-fit">
       <h2 className="text-2xl font-bold text-violet-600">Filtros</h2>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="category" className="text-lg  text-violet-600">
+          <label htmlFor="category" className="text-lg text-violet-600">
             Categoría
           </label>
           <select

@@ -23,8 +23,21 @@ export const fetcher = (url: string) => {
   }).then((res) => res.json());
 };
 
-export const productFetcher = (url: string) => {
-  return fetch(url).then((res) => res.json());
+export const productFetcher = async (url: string) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (!data || !data.products) {
+      throw new Error('Invalid data format');
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return { products: [] };
+  }
 };
 
 const useUserInfo = (): UserInfo => {
