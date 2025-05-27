@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "./productCard/ProductCard";
 import useSWR from "swr";
-import { fetcher } from "@/hooks/useUserInfo";
+import { productFetcher } from "@/hooks/useUserInfo";
 import { ApiProduct } from "@/types/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductCardSkeleton from "./productCard/ProductCardSkeleton";
@@ -13,7 +13,7 @@ const ProductsMap = ({
 }) => {
   const { data, isLoading } = useSWR(
     "https://fakestoreapi.in/api/products",
-    fetcher
+    productFetcher
   );
 
   if (isLoading) {

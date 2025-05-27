@@ -1,5 +1,5 @@
 import { Slider } from "@/components/ui/slider";
-import { fetcher } from "@/hooks/useUserInfo";
+import { productFetcher } from "@/hooks/useUserInfo";
 import { ApiProduct } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -29,7 +29,7 @@ const Filter = ({
     });
   }, [category, price]);
 
-  const { data } = useSWR("https://fakestoreapi.in/api/products", fetcher);
+  const { data } = useSWR("https://fakestoreapi.in/api/products", productFetcher);
 
   const maxPrice =
     data &&

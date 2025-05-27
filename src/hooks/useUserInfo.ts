@@ -23,6 +23,10 @@ export const fetcher = (url: string) => {
   }).then((res) => res.json());
 };
 
+export const productFetcher = (url: string) => {
+  return fetch(url).then((res) => res.json());
+};
+
 const useUserInfo = (): UserInfo => {
   const token = Cookies.get("token");
 

@@ -1,7 +1,7 @@
 "use client";
 
 import ProductCard from "../productos/components/productCard/ProductCard";
-import { fetcher } from "@/hooks/useUserInfo";
+import { productFetcher } from "@/hooks/useUserInfo";
 import useSWR from "swr";
 import { ApiProduct } from "@/types/types";
 import PopularProductsSkeleton from "./PopularProductsSkeleton";
@@ -9,7 +9,7 @@ import PopularProductsSkeleton from "./PopularProductsSkeleton";
 const PopularProducts = () => {
   const { data, isLoading } = useSWR(
     "https://fakestoreapi.in/api/products",
-    fetcher
+    productFetcher
   );
 
   if (isLoading) {

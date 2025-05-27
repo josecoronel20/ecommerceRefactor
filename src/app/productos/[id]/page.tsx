@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { fetcher } from "@/hooks/useUserInfo";
+import { productFetcher } from "@/hooks/useUserInfo";
 import useSWR from "swr";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ApiProduct } from "@/types/types";
@@ -18,7 +18,7 @@ const ProductPage = ({ params }: Props) => {
   const { id } = params;
   const { data, isLoading } = useSWR(
     `https://fakestoreapi.in/api/products`,
-    fetcher
+    productFetcher
   );
 
   if (isLoading) {
