@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     domains: ['storage.googleapis.com'],
   },
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 module.exports = {
