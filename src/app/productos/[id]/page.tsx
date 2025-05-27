@@ -6,6 +6,7 @@ import { fetcher } from "@/hooks/useUserInfo";
 import useSWR from "swr";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ApiProduct } from "@/types/types";
+import AddToCart from "../components/AddToCart";
 
 interface Props {
   params: {
@@ -95,6 +96,7 @@ const ProductPage = ({ params }: Props) => {
               {dataProduct.category}
             </p>
           </div>
+          <AddToCart product={dataProduct} />
         </div>
       </div>
     </main>
