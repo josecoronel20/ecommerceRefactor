@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { User } from "@/types/types";
-import useUserStore from "@/store/useUserStore";
 import { useState } from "react";
 import useUserInfo from "@/hooks/useUserInfo";
 import { updateUser } from "@/lib/apiUser";

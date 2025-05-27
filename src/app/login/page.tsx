@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { UserLogin } from "@/types/types";
 import { login } from "@/lib/apiUser";
-import useUserStore from "@/store/useUserStore";
 
 const LoginPage = () => {
   const router = useRouter();

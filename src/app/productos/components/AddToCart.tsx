@@ -13,8 +13,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
-import useUserStore from "@/store/useUserStore";
-import useSWR from "swr";
 import useUserInfo from "@/hooks/useUserInfo";
 
 const AddToCart = ({ product }: { product: ApiProduct }) => {
