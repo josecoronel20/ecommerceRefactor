@@ -1,13 +1,8 @@
 {
   "users": [
+   
     {
       "id": 1,
-      "user": "andy",
-      "email": "andy@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": 2,
       "user": "jose",
       "email": "josecoronel20@outlook.com",
       "password": "1234",
@@ -54,7 +49,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": 2,
       "user": "lucas",
       "email": "josecoronel20@outlook.com",
       "password": "1234",
@@ -88,7 +83,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": 3,
       "user": "juan",
       "email": "josecoronel20@outlook.com",
       "password": "1234"

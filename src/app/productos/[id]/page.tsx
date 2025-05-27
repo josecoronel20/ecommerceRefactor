@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useProductStore } from "@/store/useProductStore";
+import React from "react";
 import Image from "next/image";
+import { fetcher } from "@/hooks/useUserInfo";
+import useSWR from "swr";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ApiProduct } from "@/types/types";
 
 interface Props {
   params: {
@@ -11,73 +14,85 @@ interface Props {
 }
 
 const ProductPage = ({ params }: Props) => {
-
-  const { products, loading, error} = useProductStore();
   const { id } = params;
+  const { data, isLoading } = useSWR(
+    `https://fakestoreapi.in/api/products`,
+    fetcher
+  );
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="container mx-auto py-8 pt-36">
-        <p>Cargando...</p>
-      </div>
+      <main className="container mx-auto pt-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+          <Skeleton className="w-full h-96" />
+
+          <div className="space-y-4">
+            <Skeleton className="w-full h-5" />
+
+            <div className="flex items-center gap-4">
+              <Skeleton className="w-full h-5" />
+              <Skeleton className="w-full h-5" />
+
+              <Skeleton className="w-full h-5" />
+            </div>
+
+            <Skeleton className="w-full h-5" />
+            <div className="space-y-2">
+              <Skeleton className="w-full h-5" />
+              <Skeleton className="w-full h-5" />
+              <Skeleton className="w-full h-5" />
+              <Skeleton className="w-full h-5" />
+              <Skeleton className="w-full h-5" />
+            </div>
+          </div>
+        </div>
+      </main>
     );
   }
 
-  if (error) {
-    return (
-      <div className="container mx-auto py-8 pt-36">
-        <p className="text-red-500">Error: {error}</p>
-      </div>
-    );
-  }
-  const product = products.find((product) => product.id === parseInt(id));
-
-  if (!product) {
-    return (
-      <div className="container mx-auto py-8 pt-36">
-        <p>Producto no encontrado</p>
-      </div>
-    );
-  }
-
-  const discount = product.price - product.discount;
+  const dataProduct = data.products.find((product:ApiProduct) => product.id === parseInt(id))
+  const discount = dataProduct.price - dataProduct.discount;
 
   return (
     <main className="container mx-auto pt-32">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
         <div className="relative aspect-square">
           <Image
-            src={product.image}
-            alt={product.title}
+            src={dataProduct.image}
+            alt={dataProduct.title}
             width={100}
             height={100}
             className="object-contain w-full h-full"
           />
         </div>
         <div className="space-y-4">
-          <h1 className="text-2xl font-bold">{product.title}</h1>
+          <h1 className="text-2xl font-bold">{dataProduct.title}</h1>
 
           <div className="flex items-center gap-4">
             <p className="text-3xl font-bold">${discount}</p>
-            <p className="text-xl text-gray-600 line-through">${product.price}</p>
+            <p className="text-xl text-gray-600 line-through">
+              ${dataProduct.price}
+            </p>
 
-            <p className="text-red-400 text-xl font-bold bg-red-100 p-1 rounded-md">- {product.discount}%</p>
+            <p className="text-red-400 text-xl font-bold bg-red-100 p-1 rounded-md">
+              - {dataProduct.discount}%
+            </p>
           </div>
 
-          <p className="text-gray-600">{product.description}</p>
+          <p className="text-gray-600">{dataProduct.description}</p>
           <div className="space-y-2">
             <p>
-              <span className="font-semibold">Marca:</span> {product.brand}
+              <span className="font-semibold">Marca:</span> {dataProduct.brand}
             </p>
             <p>
-              <span className="font-semibold">Modelo:</span> {product.model}
+              <span className="font-semibold">Modelo:</span> {dataProduct.model}
             </p>
             <p>
-              <span className="font-semibold">Color:</span> {product.color}
+              <span className="font-semibold">Color:</span> {dataProduct.color}
             </p>
             <p>
               <span className="font-semibold">Categoría:</span>{" "}
-              {product.category}
+              {dataProduct.category}
             </p>
           </div>
         </div>

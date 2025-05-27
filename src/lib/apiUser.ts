@@ -1,4 +1,3 @@
-import useUserStore from "@/store/useUserStore";
 import {
   LoginUserResponse,
   User,
@@ -6,7 +5,6 @@ import {
   UserRegister,
 } from "@/types/types";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 
 // Inicia sesión
 export const login = async (user: UserLogin) => {
@@ -15,7 +13,6 @@ export const login = async (user: UserLogin) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
       },
       body: JSON.stringify(user),
     });
@@ -45,7 +42,6 @@ export const register = async (user: UserRegister) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
       },
       body: JSON.stringify(user),
     });
@@ -64,7 +60,6 @@ export const deleteUser = async (id: number) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
       },
     });
 
@@ -85,7 +80,6 @@ export const updateUser = async (currentUser: User) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${Cookies.get("token")}`,
       },
       body: JSON.stringify(currentUser),
     });

@@ -22,7 +22,7 @@ const MenuNav = () => {
 
   const LinkComponent = ({ label, href }: { label: string; href: string }) => {
     return (
-      <li className="hover:text-violet-600 ease-in-out duration-200">
+      <li className="hover:text-violet-600 ease-in-out duration-200" onClick={toggle}>
         <Link href={href}>{label}</Link>
       </li>
     );
