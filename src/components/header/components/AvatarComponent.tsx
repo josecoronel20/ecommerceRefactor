@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { LogOut, User, UserIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import Link from "next/link";
@@ -17,21 +17,16 @@ const AvatarComponent = () => {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
+    <DropdownMenu data-testid="DropdownMenu">
+      <DropdownMenuTrigger data-testid="DropdownMenuTrigger">
         <Avatar>
-          {userInfo && userInfo.image ? (
-            <AvatarImage src={userInfo.image} onClick={() => console.log(userInfo.image)}/>
-          ) : (
-            <AvatarFallback>
-              <UserIcon />
-            </AvatarFallback>
-          )}
+          <UserIcon/>
         </Avatar>
       </DropdownMenuTrigger>
 
-      {userInfo ? (<DropdownMenuContent align="end" className="w-56">
+      {userInfo ? (<DropdownMenuContent align="end" className="w-56" data-testid="DropdownMenuContent">
         <DropdownMenuItem
+          
           className="cursor-pointer flex items-center gap-2"
           onClick={() => router.push("/profile")}
         >
@@ -48,13 +43,13 @@ const AvatarComponent = () => {
         </DropdownMenuItem>
       </DropdownMenuContent>) 
       : 
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent data-testid="DropdownMenuContent" align="end" className="w-56">
       <DropdownMenuItem
         className="cursor-pointer flex items-center gap-2"
         onClick={() => router.push("/login")}
       >
         <User className="h-4 w-4" />
-        <Link href="/login">Iniciar sesion</Link>
+        <Link href="/login">Iniciar sesión.</Link>
       </DropdownMenuItem>
       
     </DropdownMenuContent>}

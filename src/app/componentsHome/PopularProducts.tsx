@@ -31,7 +31,7 @@ const PopularProducts = () => {
 
   const productos: ApiProduct[] = data.products;
   const productosDestacados = productos.filter(
-    (product: ApiProduct) => product.popular
+    (product: ApiProduct) => product.popular === true
   );
 
   if (productosDestacados.length === 0) {

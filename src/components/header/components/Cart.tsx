@@ -78,7 +78,7 @@ const Cart = () => {
         </DialogContent>
       </Dialog>
 
-      <Button variant="ghost" onClick={toggle}>
+      <Button data-testid="cart-button" variant="ghost" onClick={toggle}>
         {<CartIcon />}
         {totalItems > 0 && (
           <span className=" text-sm font-semibold text-violet-600">
