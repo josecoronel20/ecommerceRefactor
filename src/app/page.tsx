@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React, { Suspense } from "react";
-import PopularProducts from "@/app/componentsHome/PopularProducts";
-import PopularProductsSkeleton from "./componentsHome/PopularProductsSkeleton";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import React, { Suspense } from 'react';
+import PopularProducts from '@/app/componentsHome/PopularProducts';
+import PopularProductsSkeleton from './componentsHome/PopularProductsSkeleton';
 
 const Home = () => {
   return (
@@ -13,8 +13,8 @@ const Home = () => {
             Descubre Productos Exclusivos
           </h1>
           <p className="text-gray-500 w-3/4 text-center">
-            Explora nuestra colección cuidadosamente seleccionada de productos
-            premium con un diseño elegante y minimalista.
+            Explora nuestra colección cuidadosamente seleccionada de productos premium con un diseño
+            elegante y minimalista.
           </p>
         </div>
 
@@ -22,7 +22,6 @@ const Home = () => {
           <Link href="/productos">Ver colección</Link>
         </Button>
       </section>
-
 
       <PopularProducts />
     </main>

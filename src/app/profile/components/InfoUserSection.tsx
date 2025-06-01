@@ -1,37 +1,55 @@
-import { Button } from "@/components/ui/button";
-import Cookies from "js-cookie";
-import { DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Dialog } from "@/components/ui/dialog";
-import { deleteUser } from "@/lib/apiUser";
-import useUserInfo from "@/hooks/useUserInfo";
-import { logout } from "@/lib/apiUser";
-import { Skeleton } from "@/components/ui/skeleton";
-import NicknameSection from "./NickNameSection";
+import { Button } from '@/components/ui/button';
+import Cookies from 'js-cookie';
+import {
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
+import { deleteUser } from '@/lib/apiUser';
+import useUserInfo from '@/hooks/useUserInfo';
+import { logout } from '@/lib/apiUser';
+import { Skeleton } from '@/components/ui/skeleton';
+import NicknameSection from './NickNameSection';
+import useToggle from '@/hooks/useToggle';
 
 const InfoUserSection = () => {
   const { userInfo, isLoading } = useUserInfo();
+  const { isOpen, toggle } = useToggle();
 
   const handleDeleteAccount = async () => {
     try {
       const response = await deleteUser(userInfo?.id as number);
       logout();
     } catch (error) {
-      console.error("Error al eliminar cuenta:", error);
+      console.error('Error al eliminar cuenta:', error);
     }
   };
 
+  const handleCheckCookies = () => {
+    toggle();
+
+    setTimeout(() => {
+      toggle();
+    }, 1000);
+  };
 
   return (
     <section className="flex flex-col gap-4 justify-center items-center p-4 border border-gray-200 rounded-lg w-full">
       <h1 className="text-2xl font-bold">Mi perfil</h1>
       <h2 className="text-lg font-bold">Perfil de usuario</h2>
-      <Button variant="outline" onClick={() => console.log(Cookies.get("token"))}>
-        Checkear cookies
-      </Button>
+
+      <div>
+        <Button variant="outline" onClick={() => handleCheckCookies()}>
+          Checkear cookies
+        </Button>
+
+        {isOpen && <p>{Cookies.get('token')}</p>}
+      </div>
 
       <div className="flex gap-4 justify-center items-center w-full">
-        
-
         <div className="flex flex-col gap-4">
           <NicknameSection />
 
@@ -56,11 +74,7 @@ const InfoUserSection = () => {
       </div>
 
       <div>
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => logout()}
-        >
+        <Button variant="outline" className="w-full" onClick={() => logout()}>
           Cerrar sesión
         </Button>
 

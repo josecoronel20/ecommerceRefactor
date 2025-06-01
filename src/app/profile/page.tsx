@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import InfoUserSection from "./components/InfoUserSection";
-import HistorySection from "./components/HistorySection";
-import useUserInfo from "@/hooks/useUserInfo";
-import { logout } from "@/lib/apiUser";
+import React, { useEffect } from 'react';
+import InfoUserSection from './components/InfoUserSection';
+import HistorySection from './components/HistorySection';
+import useUserInfo from '@/hooks/useUserInfo';
+import { logout } from '@/lib/apiUser';
 
 const UserProfile = () => {
   const { userInfo } = useUserInfo();
@@ -14,7 +14,6 @@ const UserProfile = () => {
       logout();
     }
   }, [userInfo]);
-
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-4 pt-24 gap-4">

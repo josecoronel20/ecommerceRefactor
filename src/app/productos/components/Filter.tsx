@@ -1,25 +1,17 @@
-import { Slider } from "@/components/ui/slider";
-import { productFetcher } from "@/hooks/useUserInfo";
-import { ApiProduct } from "@/types/types";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
+import { Slider } from '@/components/ui/slider';
+import { productFetcher } from '@/hooks/useUserInfo';
+import { ApiProduct } from '@/types/types';
+import React, { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 const Filter = ({
   setFilter,
 }: {
   setFilter: (filter: { category: string; price: number }) => void;
 }) => {
-  const categories = [
-    "Todas",
-    "tv",
-    "audio",
-    "laptop",
-    "mobile",
-    "gaming",
-    "appliances",
-  ];
+  const categories = ['Todas', 'tv', 'audio', 'laptop', 'mobile', 'gaming', 'appliances'];
 
-  const [category, setCategory] = useState("Todas");
+  const [category, setCategory] = useState('Todas');
   const [price, setPrice] = useState(3000);
 
   useEffect(() => {
@@ -27,14 +19,13 @@ const Filter = ({
       category: category,
       price: price,
     });
-  }, [category, price]);
+  }, [category, price, setFilter]);
 
-  const { data, error } = useSWR("https://fakestoreapi.in/api/products", productFetcher);
+  const { data, error } = useSWR('https://fakestoreapi.in/api/products', productFetcher);
 
-  const maxPrice = data?.products?.reduce(
-    (max: number, product: ApiProduct) => Math.max(max, product.price),
-    0
-  ) || 3000;
+  const maxPrice =
+    data?.products?.reduce((max: number, product: ApiProduct) => Math.max(max, product.price), 0) ||
+    3000;
 
   return (
     <section className="flex flex-col gap-4 border border-gray-300 rounded-md p-4 min-w-[300px] h-fit">

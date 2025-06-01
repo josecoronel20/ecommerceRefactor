@@ -1,16 +1,113 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import js from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import importPlugin from 'eslint-plugin-import';
+import prettier from 'eslint-plugin-prettier';
+import nextPlugin from '@next/eslint-plugin-next';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
-
-export default eslintConfig;
+export default [
+  js.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser,
+      parserOptions: {
+        ecmaVersion: 2021,
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+      },
+      globals: {
+        fetch: 'readonly',
+        console: 'readonly',
+        window: 'readonly',
+        React: 'readonly',
+        global: 'readonly',
+        process: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        HTMLSpanElement: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLButtonElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLFormElement: 'readonly',
+        HTMLImageElement: 'readonly',
+        HTMLAnchorElement: 'readonly',
+        HTMLUListElement: 'readonly',
+        HTMLLIElement: 'readonly',
+        HTMLHeadingElement: 'readonly',
+        HTMLParagraphElement: 'readonly',
+        HTMLSelectElement: 'readonly',
+        HTMLOptionElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        HTMLTableElement: 'readonly',
+        HTMLTableRowElement: 'readonly',
+        HTMLTableCellElement: 'readonly',
+        HTMLTableHeaderCellElement: 'readonly',
+        HTMLTableSectionElement: 'readonly',
+        HTMLTableCaptionElement: 'readonly',
+        HTMLTableColElement: 'readonly',
+        HTMLTableColGroupElement: 'readonly',
+        HTMLTableBodyElement: 'readonly',
+        HTMLTableFootElement: 'readonly',
+        HTMLTableHeadElement: 'readonly',
+        HTMLTableRowElement: 'readonly',
+        HTMLTableDataCellElement: 'readonly',
+        HTMLTableHeaderCellElement: 'readonly',
+        HTMLTableSectionElement: 'readonly',
+        HTMLTableCaptionElement: 'readonly',
+        HTMLTableColElement: 'readonly',
+        HTMLTableColGroupElement: 'readonly',
+        HTMLTableBodyElement: 'readonly',
+        HTMLTableFootElement: 'readonly',
+        HTMLTableHeadElement: 'readonly',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+      react,
+      'react-hooks': reactHooks,
+      import: importPlugin,
+      prettier,
+      '@next/next': nextPlugin,
+    },
+    rules: {
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-debugger': 'warn',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'off',
+      'react-hooks/exhaustive-deps': 'warn',
+      'prettier/prettier': 'error',
+      '@next/next/no-img-element': 'error',
+    },
+    settings: {
+      react: { version: 'detect' },
+    },
+  },
+  {
+    files: ['**/*.test.ts', '**/*.test.tsx'],
+    languageOptions: {
+      globals: {
+        jest: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        test: 'readonly',
+        React: 'readonly',
+        global: 'readonly',
+        process: 'readonly',
+      },
+    },
+  },
+]; 

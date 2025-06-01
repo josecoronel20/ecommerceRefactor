@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
-import { productFetcher } from "@/hooks/useUserInfo";
-import useSWR from "swr";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ApiProduct } from "@/types/types";
-import AddToCart from "../components/AddToCart";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import Image from 'next/image';
+import { productFetcher } from '@/hooks/useUserInfo';
+import useSWR from 'swr';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ApiProduct } from '@/types/types';
+import AddToCart from '../components/AddToCart';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: {
@@ -18,10 +18,7 @@ interface Props {
 const ProductPage = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { data, isLoading, error } = useSWR(
-    `https://fakestoreapi.in/api/products`,
-    productFetcher
-  );
+  const { data, isLoading, error } = useSWR(`https://fakestoreapi.in/api/products`, productFetcher);
 
   if (isLoading) {
     return (
@@ -61,7 +58,7 @@ const ProductPage = ({ params }: Props) => {
   }
 
   const dataProduct = data.products.find((product: ApiProduct) => product.id === parseInt(id));
-  
+
   if (!dataProduct) {
     router.push('/productos');
     return null;
@@ -85,9 +82,7 @@ const ProductPage = ({ params }: Props) => {
           <h1 className="text-2xl font-bold">{dataProduct.title}</h1>
           <div className="flex items-center gap-4">
             <p className="text-3xl font-bold">${discount}</p>
-            <p className="text-xl text-gray-600 line-through">
-              ${dataProduct.price}
-            </p>
+            <p className="text-xl text-gray-600 line-through">${dataProduct.price}</p>
             <p className="text-red-400 text-xl font-bold bg-red-100 p-1 rounded-md">
               - {dataProduct.discount}%
             </p>
@@ -104,8 +99,7 @@ const ProductPage = ({ params }: Props) => {
               <span className="font-semibold">Color:</span> {dataProduct.color}
             </p>
             <p>
-              <span className="font-semibold">Categoría:</span>{" "}
-              {dataProduct.category}
+              <span className="font-semibold">Categoría:</span> {dataProduct.category}
             </p>
           </div>
           <AddToCart product={dataProduct} />

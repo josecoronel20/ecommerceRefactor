@@ -1,8 +1,8 @@
-import React from "react";
-import { useCartStore } from "@/store/useCartStore";
-import Image from "next/image";
-import { Button } from "../../ui/button";
-import { CartProduct } from "@/types/types";
+import React from 'react';
+import { useCartStore } from '@/store/useCartStore';
+import Image from 'next/image';
+import { Button } from '../../ui/button';
+import { CartProduct } from '@/types/types';
 
 const CartCard = ({ product }: { product: CartProduct }) => {
   const { removeItem, updateItemQuantity } = useCartStore();
@@ -24,18 +24,14 @@ const CartCard = ({ product }: { product: CartProduct }) => {
         <div className="flex gap-2 items-center">
           <Button
             variant="outline"
-            onClick={() =>
-              product.quantity && handleUpdateItemQuantity(product.quantity - 1)
-            }
+            onClick={() => product.quantity && handleUpdateItemQuantity(product.quantity - 1)}
           >
             -
           </Button>
           <p>{product.quantity}</p>
           <Button
             variant="outline"
-            onClick={() =>
-              product.quantity && handleUpdateItemQuantity(product.quantity + 1)
-            }
+            onClick={() => product.quantity && handleUpdateItemQuantity(product.quantity + 1)}
           >
             +
           </Button>

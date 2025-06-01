@@ -1,10 +1,10 @@
-import { render, screen } from "@testing-library/react";
-import Cart from "./Cart";
-import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom";
+import { render, screen } from '@testing-library/react';
+import Cart from './Cart';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 
 // Mock de next/image
-jest.mock("next/image", () => ({
+jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: any) => {
     // eslint-disable-next-line @next/next/no-img-element
@@ -15,15 +15,15 @@ jest.mock("next/image", () => ({
 const mockItems = [
   {
     id: 1,
-    name: "Producto 1",
-    title: "Producto 1",
+    name: 'Producto 1',
+    title: 'Producto 1',
     price: 100,
     quantity: 1,
   },
   {
     id: 2,
-    name: "Producto 2",
-    title: "Producto 2",
+    name: 'Producto 2',
+    title: 'Producto 2',
     price: 200,
     quantity: 2,
   },
@@ -32,7 +32,7 @@ const mockItems = [
 const mockClearCart = jest.fn();
 
 // Mock de useCartStore
-jest.mock("@/store/useCartStore", () => ({
+jest.mock('@/store/useCartStore', () => ({
   useCartStore: () => ({
     items: mockItems,
     addItem: jest.fn(),
@@ -43,7 +43,7 @@ jest.mock("@/store/useCartStore", () => ({
 }));
 
 // Mock de useUserInfo
-jest.mock("@/hooks/useUserInfo", () => ({
+jest.mock('@/hooks/useUserInfo', () => ({
   __esModule: true,
   default: () => ({
     userInfo: {
@@ -55,7 +55,7 @@ jest.mock("@/hooks/useUserInfo", () => ({
 }));
 
 // Mock de updateUser
-jest.mock("@/lib/apiUser", () => ({
+jest.mock('@/lib/apiUser', () => ({
   updateUser: jest.fn().mockResolvedValue({}),
 }));
 
@@ -65,44 +65,40 @@ global.fetch = jest.fn().mockResolvedValue({
   json: () => Promise.resolve({}),
 });
 
-describe("Cart", () => {
+describe('Cart', () => {
   beforeEach(() => {
     mockClearCart.mockClear();
     jest.clearAllMocks();
   });
 
-  it("renders without crashing", () => {
+  it('renders without crashing', () => {
     render(<Cart />);
-    expect(screen.getByTestId("cart-button")).toBeInTheDocument();
+    expect(screen.getByTestId('cart-button')).toBeInTheDocument();
   });
 
-  it("shows the cart when the button is clicked", async () => {
+  it('shows the cart when the button is clicked', async () => {
     render(<Cart />);
-    const cartButton = screen.getByTestId("cart-button");
+    const cartButton = screen.getByTestId('cart-button');
     const user = userEvent.setup();
     await user.click(cartButton);
 
-    expect(screen.getByText("Carrito de compras")).toBeInTheDocument();
-    expect(screen.getByText("Producto 1")).toBeInTheDocument();
-    expect(screen.getByText("Producto 2")).toBeInTheDocument();
-    expect(screen.getByText("Total")).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Finalizar compra" })
-    ).toBeInTheDocument();
+    expect(screen.getByText('Carrito de compras')).toBeInTheDocument();
+    expect(screen.getByText('Producto 1')).toBeInTheDocument();
+    expect(screen.getByText('Producto 2')).toBeInTheDocument();
+    expect(screen.getByText('Total')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Finalizar compra' })).toBeInTheDocument();
   });
 
-  it("clears the cart when the finish purchase button is clicked", async () => {
+  it('clears the cart when the finish purchase button is clicked', async () => {
     render(<Cart />);
-    const cartButton = screen.getByTestId("cart-button");
+    const cartButton = screen.getByTestId('cart-button');
     const user = userEvent.setup();
     await user.click(cartButton);
 
-    const finishPurchaseButton = screen.getByText("Finalizar compra");
+    const finishPurchaseButton = screen.getByText('Finalizar compra');
     await user.click(finishPurchaseButton);
 
     expect(mockClearCart).toHaveBeenCalled();
-    expect(
-      screen.getByText("¡Compra realizada con éxito!")
-    ).toBeInTheDocument();
+    expect(screen.getByText('¡Compra realizada con éxito!')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const useToggle = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,4 +10,4 @@ const useToggle = () => {
   return { isOpen, toggle };
 };
 
-export default useToggle; 
+export default useToggle;

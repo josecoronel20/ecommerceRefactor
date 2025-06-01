@@ -14,6 +14,7 @@ E-commerce moderno construido con Next.js 14 y TypeScript.
 ## Tecnologías 🛠️
 
 ### Frontend
+
 - **Framework**: Next.js 14
 - **Lenguaje**: TypeScript
 - **Estilos**: Tailwind CSS
@@ -24,11 +25,13 @@ E-commerce moderno construido con Next.js 14 y TypeScript.
 - **Autenticación**: JWT
 
 ### Backend
+
 - **API**: Next.js API Routes
 - **Base de Datos**: JSON (db.json)
 - **File System**: fs/promises
 
 ### Dependencias Principales
+
 ```json
 {
   "dependencies": {
@@ -79,10 +82,12 @@ src/
 ## API Endpoints 🌐
 
 ### Autenticación
+
 - `POST /api/auth/register` - Registro de usuarios
 - `POST /api/auth/login` - Inicio de sesión
 
 ### Productos
+
 - `GET /api/products` - Listar productos
 - `GET /api/products/:id` - Detalles de producto
 

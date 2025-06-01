@@ -1,7 +1,7 @@
-import useSWR from "swr";
-import Cookies from "js-cookie";
-import { User } from "@/types/types";
-import { useRouter } from "next/navigation";
+import useSWR from 'swr';
+import Cookies from 'js-cookie';
+import { User } from '@/types/types';
+import { useRouter } from 'next/navigation';
 
 interface UserInfo {
   userInfo: User | null;
@@ -11,9 +11,9 @@ interface UserInfo {
 }
 
 export const fetcher = (url: string) => {
-  const token = Cookies.get("token");
+  const token = Cookies.get('token');
   if (!token) {
-    return Promise.reject(new Error("No token found"));
+    return Promise.reject(new Error('No token found'));
   }
 
   return fetch(url, {
@@ -41,18 +41,15 @@ export const productFetcher = async (url: string) => {
 };
 
 const useUserInfo = (): UserInfo => {
-  const token = Cookies.get("token");
+  const token = Cookies.get('token');
 
   const {
     data: id,
     isLoading: isLoadingId,
     error: errorId,
-  } = useSWR(token ? "/api/auth/me" : null, fetcher);
+  } = useSWR(token ? '/api/auth/me' : null, fetcher);
 
-  const { data, isLoading, error, mutate } = useSWR(
-    id ? `/api/auth/users/${id}` : null,
-    fetcher
-  );
+  const { data, isLoading, error, mutate } = useSWR(id ? `/api/auth/users/${id}` : null, fetcher);
 
   return {
     userInfo: data as User,

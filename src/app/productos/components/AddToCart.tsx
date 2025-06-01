@@ -1,8 +1,8 @@
-import React from "react";
-import { Button } from "../../../components/ui/button";
-import { CartProduct, ApiProduct } from "@/types/types";
-import { useCartStore } from "@/store/useCartStore";
-import { CartIconWhite } from "@/assets/icons";
+import React from 'react';
+import { Button } from '../../../components/ui/button';
+import { CartProduct, ApiProduct } from '@/types/types';
+import { useCartStore } from '@/store/useCartStore';
+import { CartIconWhite } from '@/assets/icons';
 import {
   Dialog,
   DialogContent,
@@ -11,9 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import Link from "next/link";
-import useUserInfo from "@/hooks/useUserInfo";
+} from '@/components/ui/dialog';
+import Link from 'next/link';
+import useUserInfo from '@/hooks/useUserInfo';
 
 const AddToCart = ({ product }: { product: ApiProduct }) => {
   const { items, addItem, updateItemQuantity } = useCartStore();
@@ -55,8 +55,7 @@ const AddToCart = ({ product }: { product: ApiProduct }) => {
             <DialogHeader>
               <DialogTitle>Iniciar Sesión Requerido</DialogTitle>
               <DialogDescription>
-                Para agregar productos al carrito, necesitas iniciar sesión
-                primero.
+                Para agregar productos al carrito, necesitas iniciar sesión primero.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>

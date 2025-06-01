@@ -1,20 +1,20 @@
-"use client";
-import React from "react";
-import { CartIcon } from "@/assets/icons";
-import useToggle from "@/hooks/useToggle";
-import { useCartStore } from "@/store/useCartStore";
-import { Button } from "../../ui/button";
-import CartCard from "./CartCard";
+'use client';
+import React from 'react';
+import { CartIcon } from '@/assets/icons';
+import useToggle from '@/hooks/useToggle';
+import { useCartStore } from '@/store/useCartStore';
+import { Button } from '../../ui/button';
+import CartCard from './CartCard';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "../../ui/dialog";
-import { CartProduct, User } from "@/types/types";
-import useUserInfo from "@/hooks/useUserInfo";
-import { updateUser } from "@/lib/apiUser";
+} from '../../ui/dialog';
+import { CartProduct, User } from '@/types/types';
+import useUserInfo from '@/hooks/useUserInfo';
+import { updateUser } from '@/lib/apiUser';
 
 const Cart = () => {
   const { userInfo, mutate } = useUserInfo();
@@ -22,10 +22,7 @@ const Cart = () => {
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const { items, clearCart } = useCartStore();
   const totalItems = items.reduce((acc, item) => acc + (item.quantity || 0), 0);
-  const totalPrice = items.reduce(
-    (acc, item) => acc + item.price * (item.quantity || 0),
-    0
-  );
+  const totalPrice = items.reduce((acc, item) => acc + item.price * (item.quantity || 0), 0);
 
   const handleFinishPurchase = () => {
     try {
@@ -45,14 +42,12 @@ const Cart = () => {
       // Actualizar usuario con la nueva compra
       const updatedUser = {
         ...userInfo,
-        purchases: userInfo?.purchases
-          ? [...userInfo.purchases, nuevaCompra]
-          : [nuevaCompra],
+        purchases: userInfo?.purchases ? [...userInfo.purchases, nuevaCompra] : [nuevaCompra],
       };
 
       updateUser(updatedUser as User);
       mutate(updatedUser as User);
-      
+
       // Limpiar carrito y mostrar confirmación
       setShowConfirmation(true);
       clearCart();
@@ -61,7 +56,7 @@ const Cart = () => {
         toggle();
       }, 5000);
     } catch (error) {
-      console.error("Error al procesar la compra:", error);
+      console.error('Error al procesar la compra:', error);
     }
   };
 
@@ -81,17 +76,12 @@ const Cart = () => {
       <Button data-testid="cart-button" variant="ghost" onClick={toggle}>
         {<CartIcon />}
         {totalItems > 0 && (
-          <span className=" text-sm font-semibold text-violet-600">
-            {totalItems}
-          </span>
+          <span className=" text-sm font-semibold text-violet-600">{totalItems}</span>
         )}
       </Button>
 
       {isOpen && (
-        <div
-          className="absolute top-0 right-0 w-full h-screen bg-black/50 z-40"
-          onClick={toggle}
-        >
+        <div className="absolute top-0 right-0 w-full h-screen bg-black/50 z-40" onClick={toggle}>
           <div
             className="bg-white absolute top-0 right-0 w-full lg:w-1/2 h-full p-4 flex flex-col justify-between"
             onClick={(e) => e.stopPropagation()}
@@ -124,9 +114,7 @@ const Cart = () => {
 
               <div className="flex justify-between p-4">
                 <p className="text-lg font-semibold">Total</p>
-                <p className="text-lg font-semibold text-violet-600">
-                  ${totalPrice}
-                </p>
+                <p className="text-lg font-semibold text-violet-600">${totalPrice}</p>
               </div>
 
               <Button

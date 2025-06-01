@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
 import {
   DialogDescription,
   DialogTitle,
   DialogHeader,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
-import { DialogContent } from "@/components/ui/dialog";
-import { Dialog } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { User } from "@/types/types";
-import { useState } from "react";
-import useUserInfo from "@/hooks/useUserInfo";
-import { updateUser } from "@/lib/apiUser";
+import { DialogContent } from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Pencil } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { User } from '@/types/types';
+import { useState } from 'react';
+import useUserInfo from '@/hooks/useUserInfo';
+import { updateUser } from '@/lib/apiUser';
 
 const NickNameSection = () => {
   const { register, handleSubmit } = useForm<{ nickname: string }>();
@@ -26,10 +26,10 @@ const NickNameSection = () => {
     try {
       const updatedUser = { ...userInfo, nickname: data.nickname };
       const response = await updateUser(updatedUser as User);
-      mutate(updatedUser as User,false);
+      mutate(updatedUser as User, false);
       setOpen(false);
     } catch (error) {
-      console.error("Error al actualizar el nickname:", error);
+      console.error('Error al actualizar el nickname:', error);
     }
   });
 
@@ -53,7 +53,7 @@ const NickNameSection = () => {
                 <input
                   type="text"
                   placeholder="Escribe aquí tu nuevo nickname"
-                  {...register("nickname")}
+                  {...register('nickname')}
                 />
               </div>
               <Button type="submit">Guardar</Button>
@@ -64,9 +64,7 @@ const NickNameSection = () => {
 
       <div>
         <p className="text-lg font-bold">Nickname</p>
-        <p className="text-lg">
-          {userInfo?.nickname ? userInfo?.nickname : "sin nickname"}
-        </p>
+        <p className="text-lg">{userInfo?.nickname ? userInfo?.nickname : 'sin nickname'}</p>
       </div>
     </div>
   );

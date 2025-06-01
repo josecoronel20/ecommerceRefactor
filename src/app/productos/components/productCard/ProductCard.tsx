@@ -1,13 +1,12 @@
-import React from "react";
-import { Card, CardContent, CardDescription, CardTitle } from "../../../../components/ui/card";
-import { CardHeader } from "../../../../components/ui/card";
-import Image from "next/image";
-import { ApiProduct } from "@/types/types";
-import Link from "next/link";
-import AddToCart from "../AddToCart";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardTitle } from '../../../../components/ui/card';
+import { CardHeader } from '../../../../components/ui/card';
+import Image from 'next/image';
+import { ApiProduct } from '@/types/types';
+import Link from 'next/link';
+import AddToCart from '../AddToCart';
 
 const ProductCard = ({ product }: { product: ApiProduct }) => {
-
   return (
     <Card className="hover:shadow-lg transition-all duration-150 rounded-lg overflow-hidden max-w-xs">
       <CardHeader>
@@ -21,17 +20,14 @@ const ProductCard = ({ product }: { product: ApiProduct }) => {
           />
         </Link>
         <CardDescription>{product.category}</CardDescription>
-        <CardTitle className="max-h-8 overflow-hidden font-normal">
-          {product.title}
-        </CardTitle>
+        <CardTitle className="max-h-8 overflow-hidden font-normal">{product.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex justify-between items-center">
         <CardDescription className="text-lg font-bold text-violet-500">
           ${product.price}
         </CardDescription>
-        
+
         <AddToCart product={product} />
-        
       </CardContent>
     </Card>
   );

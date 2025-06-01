@@ -1,20 +1,13 @@
-import React from "react";
-import ProductCard from "./productCard/ProductCard";
-import useSWR from "swr";
-import { productFetcher } from "@/hooks/useUserInfo";
-import { ApiProduct } from "@/types/types";
-import { Skeleton } from "@/components/ui/skeleton";
-import ProductCardSkeleton from "./productCard/ProductCardSkeleton";
+import React from 'react';
+import ProductCard from './productCard/ProductCard';
+import useSWR from 'swr';
+import { productFetcher } from '@/hooks/useUserInfo';
+import { ApiProduct } from '@/types/types';
+import { Skeleton } from '@/components/ui/skeleton';
+import ProductCardSkeleton from './productCard/ProductCardSkeleton';
 
-const ProductsMap = ({
-  filtro,
-}: {
-  filtro: { category: string; price: number };
-}) => {
-  const { data, isLoading, error } = useSWR(
-    "https://fakestoreapi.in/api/products",
-    productFetcher
-  );
+const ProductsMap = ({ filtro }: { filtro: { category: string; price: number } }) => {
+  const { data, isLoading, error } = useSWR('https://fakestoreapi.in/api/products', productFetcher);
 
   if (isLoading) {
     return (
@@ -39,7 +32,7 @@ const ProductsMap = ({
   }
 
   const productosFiltrados = data.products.filter((product: ApiProduct) =>
-    filtro.category === "Todas"
+    filtro.category === 'Todas'
       ? product.price <= filtro.price
       : product.category === filtro.category && product.price <= filtro.price
   );
