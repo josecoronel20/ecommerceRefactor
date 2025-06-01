@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+ /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -8,11 +8,9 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
-};
-
-module.exports = {
-  ...nextConfig,
   env: {
     JWT_SECRET: process.env.JWT_SECRET,
   },
 };
+
+export default nextConfig;

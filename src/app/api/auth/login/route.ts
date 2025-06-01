@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { User } from '@/types/types';
 import jwt from 'jsonwebtoken';
-import { db } from '@/lib/firebase';
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import path from 'path';
+import fs from 'fs/promises';
+
+async function readDbFile() {
+  const dbPath = path.join(process.cwd(), 'src', 'db.json');
+  const data = await fs.readFile(dbPath, 'utf-8');
+  return JSON.parse(data);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,16 +16,12 @@ export async function POST(request: NextRequest) {
     const { user, password } = body;
 
     //referencia del usuario encontrado en la coleccion users
-    const userRef = doc(db, 'users', user);
+    const db = await readDbFile();
+    const foundUser = db.users.find((eachUser: User) => eachUser.user === user);
 
-    //obtener los datos de la coleccion
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
+    if (!foundUser) {
       return NextResponse.json({ error: 'invalid credentials' }, { status: 401 });
     }
-
-    const foundUser = userSnap.data() as User;
 
     if (foundUser.password !== password) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });

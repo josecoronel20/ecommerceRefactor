@@ -5,25 +5,18 @@
       "user": "jose",
       "email": "josecoronel20@outlook.com",
       "password": "1234",
-      "nickname": "aaa",
+      "nickname": "josema",
       "purchases": [
         {
-          "id": "1748008003626",
-          "date": "2025-05-23T13:46:43.626Z",
+          "id": "1748806624264",
+          "date": "2025-06-01T19:37:04.264Z",
           "products": [
             {
               "id": 2,
               "title": "Microsoft Xbox X/S Wireless Controller Robot White",
               "price": 57,
               "quantity": 1
-            }
-          ],
-          "total": 57
-        },
-        {
-          "id": "1748008020484",
-          "date": "2025-05-23T13:47:00.484Z",
-          "products": [
+            },
             {
               "id": 3,
               "title": "Logitech G733 Lightspeed Wireless Gaming Headset with Suspension Headband, LIGHTSYNC RGB, Blue VO!CE mic Technology and PRO-G Audio Drivers - White",
@@ -35,57 +28,11 @@
               "title": "Sony WH-1000XM5 Wireless Industry Leading Active Noise Cancelling Headphones, 8 Mics for Clear Calling, 30Hr Battery, 3 Min Quick Charge = 3 Hours Playback, Multi Point Connectivity, Alexa-Silver",
               "price": 362,
               "quantity": 1
-            },
-            {
-              "id": 5,
-              "title": "Urbanista Los Angeles Sand Gold - World’s 1st Solar Powered Hybrid Active Noise Cancelling with Mic Premium Wireless Headphones, Unlimited Playtime",
-              "price": 265,
-              "quantity": 1
             }
           ],
-          "total": 1011
+          "total": 803
         }
       ]
-    },
-    {
-      "id": 2,
-      "user": "lucas",
-      "email": "josecoronel20@outlook.com",
-      "password": "1234",
-      "nickname": "luquitas",
-      "purchases": [
-        {
-          "id": "1748008256611",
-          "date": "2025-05-23T13:50:56.611Z",
-          "products": [
-            {
-              "id": 27,
-              "title": "Sony PS5 PlayStation Console+God Of War Ragnarok | Standard Edition | PS5 Game (PlayStation 5)",
-              "price": 708,
-              "quantity": 8
-            },
-            {
-              "id": 31,
-              "title": "Panasonic RB-M300B Deep Bass Wireless Bluetooth Immersive Headphones with XBS DEEP and Bass Augmentation (Sand Beige), RB-M300B-C",
-              "price": 289,
-              "quantity": 1
-            },
-            {
-              "id": 34,
-              "title": "Mivi Play Bluetooth Speaker with 12 Hours Playtime. Wireless Speaker Made in India with Exceptional Sound Quality, Portable and Built in Mic-Black",
-              "price": 10,
-              "quantity": 6
-            }
-          ],
-          "total": 6013
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "user": "juan",
-      "email": "josecoronel20@outlook.com",
-      "password": "1234"
     }
   ]
 }

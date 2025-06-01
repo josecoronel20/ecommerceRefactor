@@ -67,6 +67,8 @@ export interface CartItem {
   quantity: number;
 }
 
+// Estas interfaces definen el estado y las acciones del carrito de compras
+// Los parámetros son utilizados en la implementación en useCartStore.ts
 export interface CartState {
   items: CartItem[];
   addItem: (_item: CartItem) => void;
