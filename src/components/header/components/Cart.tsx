@@ -13,11 +13,10 @@ import {
   DialogTitle,
 } from '../../ui/dialog';
 import { CartProduct, User } from '@/types/types';
-import useUserInfo from '@/hooks/useUserInfo';
 import { updateUser } from '@/lib/apiUser';
 
-const Cart = () => {
-  const { userInfo, mutate } = useUserInfo();
+const Cart = async () => {
+  const {user} = await fetch('/api/auth/me');
   const { isOpen, toggle } = useToggle();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const { items, clearCart } = useCartStore();
@@ -46,7 +45,6 @@ const Cart = () => {
       };
 
       updateUser(updatedUser as User);
-      mutate(updatedUser as User);
 
       // Limpiar carrito y mostrar confirmación
       setShowConfirmation(true);

@@ -14,8 +14,6 @@ export const login = async (user: UserLogin) => {
 
     //obtiene el usuario y el token
     const data: LoginUserResponse = await response.json();
-    //guarda el token en el cookie
-    Cookies.set('token', data.token, { expires: 1 });
 
     return data;
   } catch (error) {

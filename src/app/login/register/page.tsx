@@ -6,8 +6,17 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { UserRegister } from '@/types/types';
 import { register } from '@/lib/apiUser';
+import Cookies from 'js-cookie';
 
 const page = () => {
+  //si el usuario esta autenticado, se redirige a la pagina de inicio
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+    router.push('/');
+  }
+}, []);
+
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
 
