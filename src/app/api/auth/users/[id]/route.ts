@@ -49,8 +49,8 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   const { id } = params;
   const idToNumber = parseInt(id);
   const dbPath = path.join(process.cwd(), 'src', 'db.json');
-  const db = await readDbFile();
-  const users = db.users;
+  let db = await readDbFile();
+  let users = db.users;
   const usersUpdated = users.filter((user: any) => user.id !== idToNumber);
   db.users = usersUpdated;
   await fs.writeFile(dbPath, JSON.stringify(db, null, 2));
