@@ -15,7 +15,7 @@ const page = () => {
     if (token) {
     router.push('/');
   }
-}, []);
+  }, []);
 
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
