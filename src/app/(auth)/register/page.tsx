@@ -20,6 +20,8 @@ const page = () => {
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
 
+  // zod schema
+
   const {
     register: registerField,
     handleSubmit,
