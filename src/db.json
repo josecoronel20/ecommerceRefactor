@@ -5,7 +5,7 @@
       "user": "jose",
       "email": "josecoronel20@outlook.com",
       "password": "1234",
-      "nickname": "josema",
+      "nickname": "josema10",
       "purchases": [
         {
           "id": "1748806624264",
@@ -31,8 +31,27 @@
             }
           ],
           "total": 803
+        },
+        {
+          "id": "1748967024040",
+          "date": "2025-06-03T16:10:24.040Z",
+          "products": [
+            {
+              "id": 2,
+              "title": "Microsoft Xbox X/S Wireless Controller Robot White",
+              "price": 57,
+              "quantity": 1
+            }
+          ],
+          "total": 57
         }
       ]
+    },
+    {
+      "id": 2,
+      "user": "car",
+      "email": "josecoronel20@outlook.com",
+      "password": "1234"
     }
   ]
 }

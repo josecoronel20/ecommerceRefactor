@@ -1,8 +1,8 @@
 import React from 'react';
-import { useCartStore } from '@/store/useCartStore';
+import { useCartStore } from '@/store/cart-store';
 import Image from 'next/image';
 import { Button } from '../../../ui/button';
-import { CartProduct } from '@/types/types';
+import { CartProduct } from '@/types/cart';
 
 const CartCard = ({ product }: { product: CartProduct }) => {
   const { removeItem, updateItemQuantity } = useCartStore();

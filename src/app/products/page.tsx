@@ -1,7 +1,7 @@
 'use client';
 
-import Filter from '@/app/productos/components/Filter';
-import ProductsMap from '@/app/productos/components/ProductsMap';
+import Filter from '@/app/products/components/Filter';
+import ProductsMap from '@/app/products/components/ProductsFiltered';
 import React, { useState } from 'react';
 
 const Productos = () => {

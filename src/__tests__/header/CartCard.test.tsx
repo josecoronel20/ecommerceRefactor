@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import CartCard from './CartCard';
+import CartCard from '../../components/layout/header/components/CartCard';
 import userEvent from '@testing-library/user-event';
 
 // Primero definimos el mock

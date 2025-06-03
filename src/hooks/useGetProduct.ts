@@ -2,11 +2,11 @@ import { ApiProduct } from "@/types/product";
 import useSWR from "swr";
 import { productsApi } from "@/lib/api/products";
 
-export const useFetchProduct = () => {
-    const {data, isLoading, error} = useSWR<ApiProduct[]>('https://fakestoreapi.in/api/products', productsApi.getAll);
+export const useGetProduct = () => {
+    const {data, isLoading, error} = useSWR<ApiProduct[]>('products',() => productsApi.getAll());
 
     return {
-        data,
+        products: data,
         isLoading,
         error
     }

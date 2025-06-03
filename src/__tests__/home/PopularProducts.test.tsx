@@ -1,5 +1,5 @@
 import { render, screen, act } from '@testing-library/react';
-import PopularProducts from './PopularProducts';
+import PopularProducts from '../../app/components/PopularProducts';
 import useSWR from 'swr';
 
 const mockProducts = [

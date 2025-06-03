@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import AvatarComponent from './AvatarComponent';
+import AvatarComponent from '../../components/layout/header/components/AvatarComponent';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 

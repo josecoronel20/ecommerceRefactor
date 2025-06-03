@@ -1,4 +1,4 @@
-import { Button } from '@/assets/components/ui/button';
+import { Button } from '@/components/ui/button';
 import Cookies from 'js-cookie';
 import {
   DialogContent,
@@ -6,23 +6,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/assets/components/ui/dialog';
-import { Dialog } from '@/assets/components/ui/dialog';
-import { deleteUser } from '@/lib/api/auth';
-import useUserInfo from '@/hooks/useUserInfo';
-import { logout } from '@/lib/api/auth';
-import { Skeleton } from '@/assets/components/ui/skeleton';
+} from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
+import { authApi } from '@/lib/api/auth';
+import useGetUser from '@/hooks/useGetUser';
+import { Skeleton } from '@/components/ui/skeleton';
 import NicknameSection from './NickNameSection';
 import useToggle from '@/hooks/useToggle';
 
 const InfoUserSection = () => {
-  const { userInfo, isLoading } = useUserInfo();
+  const { user, isLoading, mutate } = useGetUser();
   const { isOpen, toggle } = useToggle();
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await deleteUser(userInfo?.id as number);
-      logout();
+      await authApi.deleteUser(user?.id as number);
+      authApi.logout();
     } catch (error) {
       console.error('Error al eliminar cuenta:', error);
     }
@@ -34,6 +33,11 @@ const InfoUserSection = () => {
     setTimeout(() => {
       toggle();
     }, 1000);
+  };
+
+  const handleLogout = async () => {
+    await authApi.logout();
+    mutate();
   };
 
   return (
@@ -58,7 +62,7 @@ const InfoUserSection = () => {
             {isLoading ? (
               <Skeleton className="w-56 h-5" />
             ) : (
-              <p className="text-lg">{userInfo?.user}</p>
+              <p className="text-lg">{user?.user}</p>
             )}
           </div>
 
@@ -67,14 +71,14 @@ const InfoUserSection = () => {
             {isLoading ? (
               <Skeleton className="w-56 h-5" />
             ) : (
-              <p className="text-lg">{userInfo?.email}</p>
+              <p className="text-lg">{user?.email}</p>
             )}
           </div>
         </div>
       </div>
 
       <div>
-        <Button variant="outline" className="w-full" onClick={() => logout()}>
+        <Button variant="outline" className="w-full" onClick={() => authApi.logout()}>
           Cerrar sesión
         </Button>
 

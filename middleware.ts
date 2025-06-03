@@ -4,24 +4,27 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
-  const isLoginPage = req.nextUrl.pathname.startsWith('/login');
-  const isRegisterPage = req.nextUrl.pathname.startsWith('/register');
-  const isProfilePage = req.nextUrl.pathname.startsWith('/profile');
+  const { pathname } = req.nextUrl;
+  
+  console.log('Middleware ejecutándose');
+  console.log('Token:', token);
+  console.log('Pathname:', pathname);
 
-  // Si está logeado y va al login, redirigir al home
-  if (token && isLoginPage) {
+  // Si está en /login o /register con token, redirigir a home
+  if ((pathname.startsWith('/login') || pathname.startsWith('/register')) && token) {
+    console.log('Redirigiendo a home porque hay token');
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  // Si está logeado y va al registro, redirigir al home
-  if (token && isRegisterPage) {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
-
-  // Si NO está logeado y va a la pagina de perfil, redirigir al login
-  if (!token && isProfilePage) {
+  // Si está en /profile sin token, redirigir a login
+  if (pathname.startsWith('/profile') && !token) {
+    console.log('Redirigiendo a login porque no hay token');
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ['/profile/:path*', '/login/:path*', '/register/:path*']
+};

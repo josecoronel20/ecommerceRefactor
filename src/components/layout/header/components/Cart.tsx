@@ -2,7 +2,7 @@
 import React from 'react';
 import { CartIcon } from '@/assets/icons';
 import useToggle from '@/hooks/useToggle';
-import { useCartStore } from '@/store/useCartStore';
+import { useCartStore } from '@/store/cart-store';
 import { Button } from '../../../ui/button';
 import CartCard from './CartCard';
 import {
@@ -12,16 +12,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../../../ui/dialog';
-import { CartProduct, User } from '@/types/types';
-import { updateUser } from '@/lib/apiUser';
+import { CartProduct } from '@/types/cart';
+import { User } from '@/types/auth';
+import useGetUser from '@/hooks/useGetUser';
+import { authApi } from '@/lib/api/auth';
 
-const Cart = async () => {
-  const {user} = await fetch('/api/auth/me');
+const Cart = () => {
+  const { user } = useGetUser();
   const { isOpen, toggle } = useToggle();
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const { items, clearCart } = useCartStore();
-  const totalItems = items.reduce((acc, item) => acc + (item.quantity || 0), 0);
-  const totalPrice = items.reduce((acc, item) => acc + item.price * (item.quantity || 0), 0);
+  const totalItems = items.reduce((acc: number, item: CartProduct) => acc + (item.quantity || 0), 0);
+  const totalPrice = items.reduce((acc: number, item: CartProduct) => acc + item.price * (item.quantity || 0), 0);
 
   const handleFinishPurchase = () => {
     try {
@@ -29,7 +31,7 @@ const Cart = async () => {
       const nuevaCompra = {
         id: Date.now().toString(),
         date: new Date().toISOString(),
-        products: items.map((item) => ({
+        products: items.map((item: CartProduct) => ({
           id: item.id,
           title: item.title,
           price: item.price,
@@ -40,11 +42,11 @@ const Cart = async () => {
 
       // Actualizar usuario con la nueva compra
       const updatedUser = {
-        ...userInfo,
-        purchases: userInfo?.purchases ? [...userInfo.purchases, nuevaCompra] : [nuevaCompra],
+        ...user,
+        purchases: user?.purchases ? [...user.purchases, nuevaCompra] : [nuevaCompra],
       };
 
-      updateUser(updatedUser as User);
+      authApi.updateUser(updatedUser as User);
 
       // Limpiar carrito y mostrar confirmación
       setShowConfirmation(true);
@@ -92,8 +94,8 @@ const Cart = async () => {
             </div>
 
             <div className="flex flex-col gap-4 overflow-y-auto h-[calc(100vh-20rem)] border-b pb-4">
-              {items.map((item) => (
-                <CartCard key={item.id} product={item as CartProduct} />
+              {items.map((item: CartProduct) => (
+                <CartCard key={item.id} product={item} />
               ))}
             </div>
 

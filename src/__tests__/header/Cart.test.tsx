@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Cart from './Cart';
+import Cart from '../../components/layout/header/components/Cart';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 

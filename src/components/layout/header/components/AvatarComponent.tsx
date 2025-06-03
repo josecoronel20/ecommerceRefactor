@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Avatar, AvatarFallback } from '../../../ui/avatar';
+import React, { useEffect, useState } from 'react';
+import { Avatar } from '../../../ui/avatar';
 import { LogOut, User, UserIcon } from 'lucide-react';
 import {
   DropdownMenu,
@@ -11,15 +11,16 @@ import {
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import useUserInfo from '@/hooks/useUserInfo';
+import useGetUser from '@/hooks/useGetUser';
+import { authApi } from '@/lib/api/auth';
 
 const AvatarComponent = () => {
   const router = useRouter();
-  const { userInfo } = useUserInfo();
+  const { user, mutate } = useGetUser();
 
-  const handleLogout = () => {
-    Cookies.remove('token');
-    router.push('/login');
+  const handleLogout = async () => {
+    await authApi.logout();
+    mutate();
   };
 
   return (
@@ -30,7 +31,7 @@ const AvatarComponent = () => {
         </Avatar>
       </DropdownMenuTrigger>
 
-      {userInfo ? (
+      {user ? (
         <DropdownMenuContent align="end" className="w-56" data-testid="DropdownMenuContent">
           <DropdownMenuItem
             className="cursor-pointer flex items-center gap-2"

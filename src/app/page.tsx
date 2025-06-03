@@ -1,8 +1,7 @@
-import { Button } from '@/assets/components/ui/button';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
+import React from 'react';
 import PopularProducts from '@/app/components/PopularProducts';
-import PopularProductsSkeleton from './components/PopularProductsSkeleton';
 
 const Home = () => {
   return (
@@ -19,7 +18,7 @@ const Home = () => {
         </div>
 
         <Button variant="violet">
-          <Link href="/productos">Ver colección</Link>
+          <Link href="/products">Ver colección</Link>
         </Button>
       </section>
 

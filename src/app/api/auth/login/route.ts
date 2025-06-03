@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { User } from '@/types/types';
+import { User } from '@/types/auth';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs/promises';
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     const userToken = jwt.sign(
-      { foundUser },
+      { id: foundUser.id },
       process.env.JWT_SECRET as string,
       { expiresIn: '1h' }
     );

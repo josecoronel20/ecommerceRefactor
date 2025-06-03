@@ -1,13 +1,11 @@
 import React from 'react';
-import ProductCard from './productCard/ProductCard';
-import useSWR from 'swr';
-import { productFetcher } from '@/hooks/useUserInfo';
-import { ApiProduct } from '@/types/types';
-import { Skeleton } from '@/assets/components/ui/skeleton';
-import ProductCardSkeleton from './productCard/ProductCardSkeleton';
+import ProductCard from '@/components/shared/productCard/ProductCard';
+import ProductCardSkeleton from '@/components/shared/productCard/ProductCardSkeleton';
+import { useGetProduct } from '@/hooks/useGetProduct';
+import { ApiProduct } from '@/types/product';
 
-const ProductsMap = ({ filtro }: { filtro: { category: string; price: number } }) => {
-  const { data, isLoading, error } = useSWR('https://fakestoreapi.in/api/products', productFetcher);
+const ProductsFiltered = ({ filtro }: { filtro: { category: string; price: number } }) => {
+  const { products, isLoading, error } = useGetProduct();
 
   if (isLoading) {
     return (
@@ -22,7 +20,7 @@ const ProductsMap = ({ filtro }: { filtro: { category: string; price: number } }
     );
   }
 
-  if (error || !data || !data.products) {
+  if (error || !products) {
     return (
       <div className="text-center col-span-full">
         <h2 className="text-2xl font-bold text-red-600">Error al cargar los productos</h2>
@@ -31,7 +29,7 @@ const ProductsMap = ({ filtro }: { filtro: { category: string; price: number } }
     );
   }
 
-  const productosFiltrados = data.products.filter((product: ApiProduct) =>
+  const productosFiltrados = products.filter((product: ApiProduct) =>
     filtro.category === 'Todas'
       ? product.price <= filtro.price
       : product.category === filtro.category && product.price <= filtro.price
@@ -55,4 +53,4 @@ const ProductsMap = ({ filtro }: { filtro: { category: string; price: number } }
   );
 };
 
-export default ProductsMap;
+export default ProductsFiltered;

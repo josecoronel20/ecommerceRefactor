@@ -1,11 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Button } from '@/assets/components/ui/button';
-import { Dialog, DialogContent } from '@/assets/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { UserRegister } from '@/types/types';
-import { register } from '@/lib/api/auth';
+import { UserRegister } from '@/types/auth';
+import { authApi } from '@/lib/api/auth';
 import Cookies from 'js-cookie';
 
 const page = () => {
@@ -28,7 +28,7 @@ const page = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await register(data as UserRegister);
+      const response = await authApi.register(data as UserRegister);
 
       if (response.ok) {
         setOpen(true);

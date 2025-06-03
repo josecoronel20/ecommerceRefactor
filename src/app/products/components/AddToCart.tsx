@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from '../../../assets/components/ui/button';
-import { CartProduct, ApiProduct } from '@/types/types';
+import { Button } from '@/components/ui/button';
+import { ApiProduct } from '@/types/product';
+import { CartProduct } from '@/types/cart';
 import { useCartStore } from '@/store/cart-store';
 import { CartIconWhite } from '@/assets/icons';
 import {
@@ -11,14 +12,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/assets/components/ui/dialog';
+} from '@/components/ui/dialog';
 import Link from 'next/link';
-import useUserInfo from '@/hooks/useUserInfo';
+import useGetUser from '@/hooks/useGetUser';
 
 const AddToCart = ({ product }: { product: ApiProduct }) => {
   const { items, addItem, updateItemQuantity } = useCartStore();
   const isInCart = items.some((item: CartProduct) => item.id === product.id);
-  const { userInfo } = useUserInfo();
+  const { user } = useGetUser();
 
   const handleAddToCart = () => {
     // Si el producto ya está en el carrito, se actualiza la cantidad
@@ -38,7 +39,7 @@ const AddToCart = ({ product }: { product: ApiProduct }) => {
 
   return (
     <>
-      {userInfo ? (
+      {user ? (
         <Button variant="violet" onClick={handleAddToCart}>
           <CartIconWhite />
           Agregar

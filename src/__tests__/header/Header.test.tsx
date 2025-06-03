@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Header from './Header';
+import Header from '../../components/layout/header/Header';
 import userEvent from '@testing-library/user-event';
 
 // Mock de useRouter y usePathname

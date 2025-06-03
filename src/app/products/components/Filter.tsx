@@ -1,6 +1,6 @@
-import { Slider } from '@/assets/components/ui/slider';
-import { productFetcher } from '@/hooks/useUserInfo';
-import { ApiProduct } from '@/types/types';
+import { Slider } from '@/components/ui/slider';
+import { useGetProduct } from '@/hooks/useGetProduct';
+import { ApiProduct } from '@/types/product';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
@@ -10,7 +10,6 @@ const Filter = ({
   setFilter: (filter: { category: string; price: number }) => void;
 }) => {
   const categories = ['Todas', 'tv', 'audio', 'laptop', 'mobile', 'gaming', 'appliances'];
-
   const [category, setCategory] = useState('Todas');
   const [price, setPrice] = useState(3000);
 
@@ -21,10 +20,10 @@ const Filter = ({
     });
   }, [category, price, setFilter]);
 
-  const { data, error } = useSWR('https://fakestoreapi.in/api/products', productFetcher);
+  const { products } = useGetProduct();
 
   const maxPrice =
-    data?.products?.reduce((max: number, product: ApiProduct) => Math.max(max, product.price), 0) ||
+    products?.reduce((max: number, product: ApiProduct) => Math.max(max, product.price), 0) ||
     3000;
 
   return (

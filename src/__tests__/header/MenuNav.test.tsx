@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import MenuNav from './MenuNav';
+import MenuNav from '../../components/layout/header/components/MenuNav';
 import userEvent from '@testing-library/user-event';
 //
 // Mock de useRouter más completo

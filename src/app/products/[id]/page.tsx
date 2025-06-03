@@ -2,12 +2,11 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { productFetcher } from '@/hooks/useUserInfo';
-import useSWR from 'swr';
-import { Skeleton } from '@/assets/components/ui/skeleton';
-import { ApiProduct } from '@/types/types';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ApiProduct } from '@/types/product';
 import AddToCart from '../components/AddToCart';
 import { useRouter } from 'next/navigation';
+import { useGetProduct } from '@/hooks/useGetProduct';
 
 interface Props {
   params: {
@@ -18,7 +17,7 @@ interface Props {
 const ProductPage = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { data, isLoading, error } = useSWR(`https://fakestoreapi.in/api/products`, productFetcher);
+  const { products, isLoading, error } = useGetProduct();
 
   if (isLoading) {
     return (
@@ -46,7 +45,7 @@ const ProductPage = ({ params }: Props) => {
     );
   }
 
-  if (error || !data || !data.products) {
+  if (error || !products) {
     return (
       <main className="container mx-auto pt-32">
         <div className="text-center">
@@ -57,7 +56,7 @@ const ProductPage = ({ params }: Props) => {
     );
   }
 
-  const dataProduct = data.products.find((product: ApiProduct) => product.id === parseInt(id));
+  const dataProduct = products.find((product: ApiProduct) => product.id === parseInt(id));
 
   if (!dataProduct) {
     router.push('/productos');

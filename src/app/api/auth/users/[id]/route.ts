@@ -7,7 +7,7 @@ async function readDbFile() {
   const dbPath = path.join(process.cwd(), 'src', 'db.json');
   const data = await fs.readFile(dbPath, 'utf-8');
   return JSON.parse(data);
-}
+} 
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -41,7 +41,6 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
   db.users = usersUpdated;
   await fs.writeFile(dbPath, JSON.stringify(db, null, 2));
-  let data = await readDbFile();
   return NextResponse.json(usersUpdated);
 }
 

@@ -1,13 +1,12 @@
 'use client';
 
-import { Button } from '@/assets/components/ui/button';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { UserLogin } from '@/types/types';
-import { login } from '@/lib/api/auth';
-import Cookies from 'js-cookie';
+import { UserLogin } from '@/types/auth';
+import { authApi } from '@/lib/api/auth';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -22,7 +21,7 @@ const LoginPage = () => {
   // Manejador del formulario de inicio de sesión
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await login(data as UserLogin);
+      const response = await authApi.login(data as UserLogin);
       if (response.user) {
         router.push('/');
       } else {

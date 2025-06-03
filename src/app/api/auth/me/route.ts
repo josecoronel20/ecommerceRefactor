@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import fs from 'fs/promises';
-import { User } from '@/types/types';
+import { User } from '@/types/auth';
 
 async function readDbFile() {
   const dbPath = path.join(process.cwd(), 'src', 'db.json');
@@ -25,10 +25,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // ✅ Verificamos y extraemos el ID del token
-    const decoded = jwt.verify(token, secretKey) as { id: number; user: string };
+    const decoded = jwt.verify(token, secretKey) as { id: number}
 
-    // ✅ Buscamos el usuario por ID en la DB
     const db = await readDbFile();
     const userFound = db.users.find((u: User) => u.id === decoded.id);
 
@@ -36,7 +34,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // ✅ Retornamos los datos actualizados
     return NextResponse.json({
       user: userFound,
     });

@@ -5,27 +5,27 @@ import {
   DialogTitle,
   DialogHeader,
   DialogTrigger,
-} from '@/assets/components/ui/dialog';
+} from '@/components/ui/dialog';
 
-import { DialogContent } from '@/assets/components/ui/dialog';
-import { Dialog } from '@/assets/components/ui/dialog';
-import { Button } from '@/assets/components/ui/button';
+import { DialogContent } from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { User } from '@/types/types';
+import { User } from '@/types/auth';
 import { useState } from 'react';
-import useUserInfo from '@/hooks/useUserInfo';
-import { updateUser } from '@/lib/api/auth';
+import useGetUser from '@/hooks/useGetUser';
+import { authApi } from '@/lib/api/auth';
 
 const NickNameSection = () => {
   const { register, handleSubmit } = useForm<{ nickname: string }>();
-  const { userInfo, mutate } = useUserInfo();
+  const { user, mutate } = useGetUser();
   const [open, setOpen] = useState(false); // estado del diálogo
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const updatedUser = { ...userInfo, nickname: data.nickname };
-      const response = await updateUser(updatedUser as User);
+      const updatedUser = { ...user, nickname: data.nickname };
+      await authApi.updateUser(updatedUser as User);
       mutate(updatedUser as User, false);
       setOpen(false);
     } catch (error) {
@@ -64,7 +64,7 @@ const NickNameSection = () => {
 
       <div>
         <p className="text-lg font-bold">Nickname</p>
-        <p className="text-lg">{userInfo?.nickname ? userInfo?.nickname : 'sin nickname'}</p>
+        <p className="text-lg">{user?.nickname ? user?.nickname : 'sin nickname'}</p>
       </div>
     </div>
   );

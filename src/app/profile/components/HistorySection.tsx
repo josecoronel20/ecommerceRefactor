@@ -1,12 +1,13 @@
-import { ApiProduct, Purchase, User } from '@/types/types';
+import { ApiProduct } from '@/types/product';
+import { Purchase } from '@/types/cart';
 import React from 'react';
-import useUserInfo from '@/hooks/useUserInfo';
+import useGetUser from '@/hooks/useGetUser';
 
 const HistorySection = () => {
-  const { userInfo } = useUserInfo();
+  const { user } = useGetUser();
 
   // Se obtiene el historial de compras del usuario
-  const purchases = userInfo?.purchases || [];
+  const purchases = user?.purchases || [];
 
   return (
     <section className="flex flex-col gap-4 justify-center items-center p-4 border border-gray-200 rounded-lg w-full">
