@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/assets/components/ui/button';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
-import PopularProducts from '@/app/componentsHome/PopularProducts';
-import PopularProductsSkeleton from './componentsHome/PopularProductsSkeleton';
+import PopularProducts from '@/app/components/PopularProducts';
+import PopularProductsSkeleton from './components/PopularProductsSkeleton';
 
 const Home = () => {
   return (

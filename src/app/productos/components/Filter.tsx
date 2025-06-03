@@ -1,4 +1,4 @@
-import { Slider } from '@/components/ui/slider';
+import { Slider } from '@/assets/components/ui/slider';
 import { productFetcher } from '@/hooks/useUserInfo';
 import { ApiProduct } from '@/types/types';
 import React, { useEffect, useState } from 'react';

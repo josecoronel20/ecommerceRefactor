@@ -1,5 +1,5 @@
 import { render, screen, act } from '@testing-library/react';
-import Home from './page';
+import Home from '../../app/page';
 import userEvent from '@testing-library/user-event';
 
 // Mock de useRouter más completo

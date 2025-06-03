@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import InfoUserSection from './components/InfoUserSection';
 import HistorySection from './components/HistorySection';
 import useUserInfo from '@/hooks/useUserInfo';
-import { logout } from '@/lib/apiUser';
+import { logout } from '@/lib/api/auth';
 
 const UserProfile = () => {
   const { userInfo } = useUserInfo();

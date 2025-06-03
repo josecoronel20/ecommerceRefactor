@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Register from './page';
+import Register from '../../app/(auth)/register/page';
 
 const mockRouter = { push: jest.fn() };
 

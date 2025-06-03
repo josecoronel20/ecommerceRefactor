@@ -33,9 +33,6 @@ export async function POST(request: NextRequest) {
       user: {
         id: foundUser.id,
         user: foundUser.user,
-        email: foundUser.email,
-        nickname: foundUser.nickname,
-        purchases: foundUser.purchases,
       },
     });
 

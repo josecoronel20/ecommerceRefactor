@@ -5,17 +5,17 @@ import {
   DialogTitle,
   DialogHeader,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/assets/components/ui/dialog';
 
-import { DialogContent } from '@/components/ui/dialog';
-import { Dialog } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { DialogContent } from '@/assets/components/ui/dialog';
+import { Dialog } from '@/assets/components/ui/dialog';
+import { Button } from '@/assets/components/ui/button';
 import { Pencil } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { User } from '@/types/types';
 import { useState } from 'react';
 import useUserInfo from '@/hooks/useUserInfo';
-import { updateUser } from '@/lib/apiUser';
+import { updateUser } from '@/lib/api/auth';
 
 const NickNameSection = () => {
   const { register, handleSubmit } = useForm<{ nickname: string }>();

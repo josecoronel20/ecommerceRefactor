@@ -3,7 +3,7 @@ import ProductCard from './productCard/ProductCard';
 import useSWR from 'swr';
 import { productFetcher } from '@/hooks/useUserInfo';
 import { ApiProduct } from '@/types/types';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/assets/components/ui/skeleton';
 import ProductCardSkeleton from './productCard/ProductCardSkeleton';
 
 const ProductsMap = ({ filtro }: { filtro: { category: string; price: number } }) => {

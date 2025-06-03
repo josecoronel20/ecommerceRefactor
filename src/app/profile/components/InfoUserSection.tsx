@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/assets/components/ui/button';
 import Cookies from 'js-cookie';
 import {
   DialogContent,
@@ -6,12 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Dialog } from '@/components/ui/dialog';
-import { deleteUser } from '@/lib/apiUser';
+} from '@/assets/components/ui/dialog';
+import { Dialog } from '@/assets/components/ui/dialog';
+import { deleteUser } from '@/lib/api/auth';
 import useUserInfo from '@/hooks/useUserInfo';
-import { logout } from '@/lib/apiUser';
-import { Skeleton } from '@/components/ui/skeleton';
+import { logout } from '@/lib/api/auth';
+import { Skeleton } from '@/assets/components/ui/skeleton';
 import NicknameSection from './NickNameSection';
 import useToggle from '@/hooks/useToggle';
 

@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { productFetcher } from '@/hooks/useUserInfo';
 import useSWR from 'swr';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/assets/components/ui/skeleton';
 import { ApiProduct } from '@/types/types';
 import AddToCart from '../components/AddToCart';
 import { useRouter } from 'next/navigation';

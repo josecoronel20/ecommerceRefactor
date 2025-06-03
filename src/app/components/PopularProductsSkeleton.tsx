@@ -1,5 +1,5 @@
 import ProductCardSkeleton from '@/app/productos/components/productCard/ProductCardSkeleton';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/assets/components/ui/skeleton';
 import React from 'react';
 
 const PopularProductsSkeleton = () => {

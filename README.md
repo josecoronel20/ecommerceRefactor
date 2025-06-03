@@ -1,129 +1,183 @@
-# Violet Shop 🛍️
+# Mejoras para Profesionalizar la Aplicación
 
-E-commerce moderno construido con Next.js 14 y TypeScript.
+## 1. Estructura de Carpetas
 
-## Características Principales ✨
+### Reorganización Actual
 
-- 🔐 Autenticación JWT
-- 🛒 Carrito de compras persistente
-- 👤 Perfil de usuario personalizable
-- 📱 Diseño responsive
-- 🎨 UI moderna con Tailwind CSS
-- 🔄 Estado global con Zustand
-
-## Tecnologías 🛠️
-
-### Frontend
-
-- **Framework**: Next.js 14
-- **Lenguaje**: TypeScript
-- **Estilos**: Tailwind CSS
-- **Estado**: Zustand
-- **Formularios**: React Hook Form
-- **UI Components**: Shadcn
-- **Iconos**: Lucide React
-- **Autenticación**: JWT
-
-### Backend
-
-- **API**: Next.js API Routes
-- **Base de Datos**: JSON (db.json)
-- **File System**: fs/promises
-
-### Dependencias Principales
-
-```json
-{
-  "dependencies": {
-    "@radix-ui/react-avatar": "^1.1.9",
-    "@radix-ui/react-dialog": "^1.1.13",
-    "@radix-ui/react-dropdown-menu": "^2.1.14",
-    "@radix-ui/react-slider": "^1.3.4",
-    "@radix-ui/react-slot": "^1.2.2",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "jsonwebtoken": "^9.0.2",
-    "lucide-react": "^0.510.0",
-    "next": "^14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.56.4",
-    "tailwind-merge": "^3.3.0",
-    "tailwindcss-animate": "^1.0.7",
-    "zustand": "^5.0.4"
-  }
-}
-```
-
-## Instalación 🚀
-
-```bash
-# Clonar el repositorio
-git clone https://github.com/tu-usuario/violet-shop.git
-
-# Instalar dependencias
-npm install
-
-# Iniciar en desarrollo
-npm run dev
-```
-
-## Estructura del Proyecto 📁
-
-```
 src/
-├── app/          # Rutas y páginas
-├── components/   # Componentes UI
-├── store/        # Estado global
-├── types/        # Tipos TypeScript
-└── db.json       # Base de datos
-```
+├── app/ # Rutas y páginas
+│ ├── api/ # Endpoints
+│ ├── login/ # Páginas de autenticación
+│ ├── profile/ # Páginas de perfil
+│ └── productos/ # Páginas de productos
+├── components/ # Componentes reutilizables
+├── lib/ # Utilidades
+│ ├── apiUser.ts # Cliente de API
+│ └── utils.ts # Funciones utilitarias
+├── store/ # Estado global
+│   ├── auth-store.ts            # Estado de autenticación
+│   ├── cart-store.ts            # Estado del carrito (Zustand)
+│   └── product-store.ts         # Estado de productos
+├── types/ # Tipos TypeScript
+└── assets/ # Recursos estáticos
 
-## API Endpoints 🌐
+### Estructura Propuesta
+
+src/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/
+│   │   │   ├── components/        # Componentes exclusivos de login
+│   │   │   │   └── login-form.tsx
+│   │   │   └── page.tsx
+│   │   └── register/
+│   │       ├── components/        # Componentes exclusivos de registro
+│   │       │   └── register-form.tsx
+│   │       └── page.tsx
+│   ├── (shop)/
+│   │   └── productos/
+│   │       ├── components/        # Componentes exclusivos de productos
+│   │       │   └── product-list.tsx
+│   │       └── page.tsx
+│   ├── api/                       # API routes organizadas
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   │   └── route.ts      # Endpoint POST /api/auth/login
+│   │   │   └── register/
+│   │   │       └── route.ts      # Endpoint POST /api/auth/register
+│   │   └── products/
+│   │       └── route.ts          # Endpoint GET /api/products
+│   ├── layout.tsx                 # Layout principal de la app
+│   └── page.tsx                   # Página home
+├── components/
+│   ├── ui/                       # Componentes de UI básicos
+│   │   ├── button.tsx
+│   │   ├── input.tsx
+│   │   └── card.tsx
+│   ├── layout/                   # Componentes de layout
+│   │   ├── header/
+│   │   │   ├── cart-modal.tsx    # Modal del carrito
+│   │   │   └── index.tsx
+│   │   ├── footer.tsx
+│   │   └── sidebar.tsx
+│   └── shared/                   # Componentes compartidos
+│       ├── product-card.tsx
+│       └── cart-item.tsx         # Item individual del carrito
+├── lib/
+│   ├── api/                      # Clientes de API
+│   │   ├── auth.ts              # Funciones para autenticación
+│   │   └── products.ts          # Funciones para productos
+│   └── utils/                    # Utilidades
+│       ├── format.ts
+│       ├── validation.ts
+│       └── constants.ts
+├── store/                        # Estado global
+│   ├── auth-store.ts
+│   ├── cart-store.ts
+│   └── product-store.ts
+├── types/                        # Tipos TypeScript
+│   ├── auth.ts
+│   ├── product.ts
+│   └── cart.ts
+├── hooks/                        # Custom hooks
+│   ├── use-auth.ts
+│   └── use-cart.ts
+├── styles/                       # Estilos
+│   └── globals.css
+├── assets/                       # Recursos estáticos
+│   ├── images/
+│   └── icons/
+└── __tests__/                    # Tests
+    ├── auth/
+    │   └── login.test.tsx
+    └── products/
+        └── product-card.test.tsx
+
+## 2. Mejoras Inmediatas
+
+### API y Endpoints
+- Separar `apiUser.ts` en módulos específicos:
+  - `auth.ts` para autenticación
+  - `products.ts` para productos
+  - `cart.ts` para carrito
+- Implementar manejo de errores consistente
+- Agregar tipos de respuesta
+- Usar constantes para URLs
+
+### Estado Global (Store)
+- Separar stores por dominio:
+  - `authStore.ts` para autenticación
+  - `cartStore.ts` para carrito
+  - `productStore.ts` para productos
+- Implementar persistencia de datos
+- Agregar tipos para el estado
+
+### Componentes
+- Organizar por categoría:
+  - `ui/` para componentes básicos
+  - `forms/` para formularios
+  - `layout/` para layouts
+- Agregar PropTypes/Types
+- Documentar props
+
+### Tests
+- Mover tests a carpeta `__tests__/`
+- Organizar por feature
+- Agregar tests de integración
+- Implementar mocks para API
+
+## 3. Mejoras de Seguridad
 
 ### Autenticación
+- Implementar refresh tokens
+- Agregar expiración de sesión
+- Proteger rutas sensibles
+- Validar tokens en middleware
 
-- `POST /api/auth/register` - Registro de usuarios
-- `POST /api/auth/login` - Inicio de sesión
+### API
+- Implementar rate limiting
+- Sanitizar inputs
+- Validar datos con Zod
+- Manejar errores consistente
 
-### Productos
+## 4. Mejoras de Código
 
-- `GET /api/products` - Listar productos
-- `GET /api/products/:id` - Detalles de producto
+### Tipos
+- Crear interfaces para respuestas de API
+- Tipar estados de store
+- Tipar props de componentes
+- Usar tipos estrictos
 
-## Estado Global 📊
+### Utilidades
+- Organizar funciones por dominio
+- Agregar documentación
+- Implementar tests unitarios
+- Crear constantes para valores reutilizables
 
-```typescript
-interface UserStore {
-  user: User | null;
-  token: string | null;
-  setUser: (user: User) => void;
-  login: (credentials: LoginData) => Promise<void>;
-  register: (userData: RegisterData) => Promise<void>;
-}
-```
+## 5. Próximos Pasos
 
-## Seguridad 🔒
+1. Reorganizar estructura de carpetas
+2. Separar módulos de API
+3. Implementar manejo de errores
+4. Agregar tipos faltantes
+5. Reorganizar tests
 
-- Autenticación JWT
-- Validación de formularios
-- Protección de rutas
-- Sanitización de datos
+## 6. Buenas Prácticas
 
-## Contribuir 🤝
+### Código
+- Usar nombres descriptivos
+- Mantener funciones pequeñas
+- Documentar funciones complejas
+- Seguir convenciones de nombrado
 
-1. Fork el proyecto
-2. Crea tu rama (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+### Git
+- Usar commits descriptivos
+- Crear ramas por feature
+- Mantener PRs pequeños
+- Revisar código antes de mergear
 
-## Licencia 📄
-
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
-
-## Contacto 📧
-
-Tu Nombre - [@tutwitter](https://twitter.com/tutwitter)
-
-Link del Proyecto: [https://github.com/tu-usuario/violet-shop](https://github.com/tu-usuario/violet-shop)
+### Desarrollo
+- Mantener dependencias actualizadas
+- Seguir guía de estilos
+- Documentar cambios importantes
+- Mantener tests actualizados

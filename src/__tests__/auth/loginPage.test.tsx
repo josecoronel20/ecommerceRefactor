@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Login from './page';
+import Login from '../../app/(auth)/login/page';
 
 // Mock de router
 const mockRouter = { push: jest.fn() };

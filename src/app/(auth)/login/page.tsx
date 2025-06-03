@@ -1,44 +1,36 @@
 'use client';
+
+import { Button } from '@/assets/components/ui/button';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { UserRegister } from '@/types/types';
-import { register } from '@/lib/apiUser';
+import { UserLogin } from '@/types/types';
+import { login } from '@/lib/api/auth';
 import Cookies from 'js-cookie';
 
-const page = () => {
-  //si el usuario esta autenticado, se redirige a la pagina de inicio
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
-    router.push('/');
-  }
-}, []);
-
-  const [isOpen, setOpen] = useState(false);
+const LoginPage = () => {
   const router = useRouter();
-
   const {
-    register: registerField,
+    register,
     handleSubmit,
     formState: { errors },
-  } = useForm<{ user: string; email: string; password: string }>();
+  } = useForm<{ user: string; password: string }>();
+  const [unFoundUser, setUnFoundUser] = useState(false);
 
+
+  // Manejador del formulario de inicio de sesión
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response = await register(data as UserRegister);
-
-      if (response.ok) {
-        setOpen(true);
-        setTimeout(() => {
-          setOpen(false);
-          router.push('/login');
-        }, 2000);
+      const response = await login(data as UserLogin);
+      if (response.user) {
+        router.push('/');
+      } else {
+        setUnFoundUser(true);
       }
     } catch (error) {
-      console.error('Error al registrar:', error);
+      console.error('Error al iniciar sesión:', error);
+      setUnFoundUser(true);
     }
   });
 
@@ -47,7 +39,7 @@ const page = () => {
       <section className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <header className="text-center mb-8">
           <h1 className="text-3xl font-bold text-violet-600">Violet Shop</h1>
-          <p className="text-gray-600 mt-2">Registrate para continuar comprando</p>
+          <p className="text-gray-600 mt-2">Inicia sesión para continuar comprando</p>
         </header>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -59,7 +51,7 @@ const page = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              {...registerField('user', {
+              {...register('user', {
                 required: {
                   value: true,
                   message: 'El usuario es requerido',
@@ -70,23 +62,6 @@ const page = () => {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              {...registerField('email', {
-                required: {
-                  value: true,
-                  message: 'El email es requerido',
-                },
-              })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="space-y-2">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Contraseña
             </label>
@@ -94,18 +69,10 @@ const page = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              {...registerField('password', {
+              {...register('password', {
                 required: {
                   value: true,
                   message: 'La contraseña es requerida',
-                },
-                minLength: {
-                  value: 3,
-                  message: 'La contraseña debe tener al menos 3 caracteres',
-                },
-                maxLength: {
-                  value: 10,
-                  message: 'La contraseña debe tener máximo 10 caracteres',
                 },
               })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
@@ -113,20 +80,20 @@ const page = () => {
           </div>
 
           {errors.user && <p className="text-red-500">{errors.user.message}</p>}
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
           {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+          {unFoundUser && <p className="text-red-500">Usuario o contraseña incorrectos</p>}
 
           <Button type="submit" variant="violet" className="w-full">
-            registrarse
+            Iniciar sesión
           </Button>
 
-          <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogContent>Te registraste correctamente</DialogContent>
-          </Dialog>
+          <Button variant="outline" className="w-full" asChild>
+            <Link href="/login/register">Registrarse</Link>
+          </Button>
         </form>
       </section>
     </main>
   );
 };
 
-export default page;
+export default LoginPage;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '../../../components/ui/button';
+import { Button } from '../../../assets/components/ui/button';
 import { CartProduct, ApiProduct } from '@/types/types';
-import { useCartStore } from '@/store/useCartStore';
+import { useCartStore } from '@/store/cart-store';
 import { CartIconWhite } from '@/assets/icons';
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/assets/components/ui/dialog';
 import Link from 'next/link';
 import useUserInfo from '@/hooks/useUserInfo';
 
