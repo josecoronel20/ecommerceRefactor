@@ -1,13 +1,24 @@
 import { ApiProduct } from '@/types/product';
+import useSWR from 'swr';
 
-export const productsApi = {
-  getAll: async (): Promise<ApiProduct[]> => {
-    const response = await fetch('https://fakestoreapi.in/api/products');
-    if (!response.ok) {
-      throw new Error('Failed to fetch products');
+const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Failed to fetch products');
+  }
+  return response.json();
+};
+export const products = () => {
+  const {data, isLoading, error} = useSWR<ApiProduct[]>('/api/products', fetcher);
+
+  if(isLoading) {
+    return {
+      products: [],
+      isLoading: true,
+      error: null
     }
-    const data = await response.json();
+  }
+  
 
-    return data.products
-  },
+  return {data, isLoading, error};
 };

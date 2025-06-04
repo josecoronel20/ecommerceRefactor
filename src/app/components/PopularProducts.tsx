@@ -6,7 +6,9 @@ import PopularProductsSkeleton from './PopularProductsSkeleton';
 import { useGetProduct } from '@/hooks/useGetProduct';
 
 const PopularProducts = () => {
-  const { products, isLoading, error } = useGetProduct();
+  const { data, isLoading, error } = useGetProduct();
+
+  console.log(data);
 
   if (isLoading) {
     return <PopularProductsSkeleton />;

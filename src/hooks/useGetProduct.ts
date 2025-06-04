@@ -1,12 +1,11 @@
-import { ApiProduct } from "@/types/product";
-import useSWR from "swr";
-import { productsApi } from "@/lib/api/products";
+import { products } from "@/lib/api/products";
 
 export const useGetProduct = () => {
-    const {data, isLoading, error} = useSWR<ApiProduct[]>('products',() => productsApi.getAll());
+    const {data, isLoading, error} = products();
 
+    const products = data?.products;
     return {
-        products: data,
+        products,
         isLoading,
         error
     }
