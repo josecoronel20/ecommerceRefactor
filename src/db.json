@@ -52,6 +52,12 @@
       "user": "car",
       "email": "josecoronel20@outlook.com",
       "password": "1234"
+    },
+    {
+      "id": 3,
+      "user": "andy2",
+      "email": "cuelloandres.js@gmail.com",
+      "password": "02100210"
     }
   ]
 }

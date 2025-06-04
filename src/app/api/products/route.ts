@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -16,3 +17,16 @@ export async function GET() {
     );
   }
 }
+=======
+import { NextResponse } from "next/server";
+
+export async function GET() {
+    const response = await fetch('http://localhost:3000/products');
+    
+    const {data} = await response.json();
+    
+    console.log('response>>>', data);
+
+    return NextResponse.json(data);
+}
+>>>>>>> e92342ccaed7bd8e62daaf866c6c8cbff82254c2

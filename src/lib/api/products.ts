@@ -1,24 +1,22 @@
 import { ApiProduct } from '@/types/product';
 import useSWR from 'swr';
 
-const fetcher = async (url: string) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Failed to fetch products');
-  }
-  return response.json();
-};
-export const products = () => {
-  const {data, isLoading, error} = useSWR<ApiProduct[]>('/api/products', fetcher);
+export const productsApi = {
+  getAll: async (): Promise<ApiProduct[]> => {
+    try{ 
+      const response = await fetch('/api/products');
 
-  if(isLoading) {
-    return {
-      products: [],
-      isLoading: true,
-      error: null
-    }
-  }
-  
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      } 
 
-  return {data, isLoading, error};
+      const data = await response.json();
+
+      console.log('data', {data});
+
+    return data.products
+  } catch (error) {
+    console.log('error', error);
+  }
+  }
 };
