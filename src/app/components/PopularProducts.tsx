@@ -3,12 +3,10 @@
 import ProductCard from '@/components/shared/productCard/ProductCard';
 import { ApiProduct } from '@/types/product';
 import PopularProductsSkeleton from './PopularProductsSkeleton';
-import { useGetProduct } from '@/hooks/useGetProduct';
+import { useGetProducts } from '@/hooks/useGetProducts';
 
 const PopularProducts = () => {
-  const { data, isLoading, error } = useGetProduct();
-
-  console.log(data);
+  const { products, isLoading, error } = useGetProducts();
 
   if (isLoading) {
     return <PopularProductsSkeleton />;
