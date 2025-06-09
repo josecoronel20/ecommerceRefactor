@@ -7,15 +7,27 @@ import { useForm } from 'react-hook-form';
 import { UserRegister } from '@/types/auth';
 import { authApi } from '@/lib/api/auth';
 import Cookies from 'js-cookie';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const registerSchema = z.object({
+  user: z
+    .string()
+    .min(1, 'El usuario es requerido')
+    .min(3, 'El usuario debe tener al menos 3 caracteres')
+    .max(20, 'El usuario no puede tener más de 20 caracteres')
+    .regex(/^[a-zA-Z0-9_]+$/, 'El usuario solo puede contener letras, números y guiones bajos'),
+  email: z.string().email('El email no es válido'),
+  password: z
+    .string()
+    .min(1, 'La contraseña es requerida')
+    .min(6, 'La contraseña debe tener al menos 6 caracteres')
+    .max(50, 'La contraseña no puede tener más de 50 caracteres'),
+});
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 const page = () => {
-  //si el usuario esta autenticado, se redirige a la pagina de inicio
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
-    router.push('/');
-  }
-  }, []);
 
   const [isOpen, setOpen] = useState(false);
   const router = useRouter();
@@ -26,7 +38,10 @@ const page = () => {
     register: registerField,
     handleSubmit,
     formState: { errors },
-  } = useForm<{ user: string; email: string; password: string }>();
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    mode: 'onChange',
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -61,12 +76,7 @@ const page = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              {...registerField('user', {
-                required: {
-                  value: true,
-                  message: 'El usuario es requerido',
-                },
-              })}
+              {...registerField('user')}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -79,12 +89,7 @@ const page = () => {
               type="email"
               id="email"
               placeholder="Email"
-              {...registerField('email', {
-                required: {
-                  value: true,
-                  message: 'El email es requerido',
-                },
-              })}
+              {...registerField('email')}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
@@ -96,20 +101,7 @@ const page = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              {...registerField('password', {
-                required: {
-                  value: true,
-                  message: 'La contraseña es requerida',
-                },
-                minLength: {
-                  value: 3,
-                  message: 'La contraseña debe tener al menos 3 caracteres',
-                },
-                maxLength: {
-                  value: 10,
-                  message: 'La contraseña debe tener máximo 10 caracteres',
-                },
-              })}
+              {...registerField('password')}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>

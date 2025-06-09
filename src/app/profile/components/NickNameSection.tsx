@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { User } from '@/types/auth';
 import { useState } from 'react';
 import useGetUser from '@/hooks/useGetUser';
-import { authApi } from '@/lib/api/auth';
+import { userApi } from '@/lib/api/user';
 
 const NickNameSection = () => {
   const { register, handleSubmit } = useForm<{ nickname: string }>();
@@ -25,7 +25,7 @@ const NickNameSection = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const updatedUser = { ...user, nickname: data.nickname };
-      await authApi.updateUser(updatedUser as User);
+      await userApi.updateUser(updatedUser as User);
       mutate(updatedUser as User, false);
       setOpen(false);
     } catch (error) {

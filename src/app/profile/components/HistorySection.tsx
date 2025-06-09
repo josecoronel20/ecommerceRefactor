@@ -5,6 +5,7 @@ import useGetUser from '@/hooks/useGetUser';
 
 const HistorySection = () => {
   const { user } = useGetUser();
+  console.log("user purchases:", user?.purchases);
 
   // Se obtiene el historial de compras del usuario
   const purchases = user?.purchases || [];

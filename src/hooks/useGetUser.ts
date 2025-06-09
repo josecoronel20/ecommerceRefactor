@@ -1,4 +1,4 @@
-import { authApi } from '@/lib/api/auth';
+import { userApi } from '@/lib/api/user';
 import { User } from '@/types/auth';
 import useSWR from 'swr';
 
@@ -8,7 +8,7 @@ const useGetUser = () => {
     isLoading,
     error,
     mutate,
-  } = useSWR<User>('user', () => authApi.getUserLogged());
+  } = useSWR<User>('user', () => userApi.getMe());
 
   return { user, isLoading, error, mutate };
 };

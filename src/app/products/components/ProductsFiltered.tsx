@@ -1,11 +1,11 @@
 import React from 'react';
 import ProductCard from '@/components/shared/productCard/ProductCard';
 import ProductCardSkeleton from '@/components/shared/productCard/ProductCardSkeleton';
-import { useGetProduct } from '@/hooks/useGetProduct';
+import { useGetProducts } from '@/hooks/useGetProducts';
 import { ApiProduct } from '@/types/product';
 
 const ProductsFiltered = ({ filtro }: { filtro: { category: string; price: number } }) => {
-  const { products, isLoading, error } = useGetProduct();
+  const { products, isLoading, error } = useGetProducts();
 
   if (isLoading) {
     return (

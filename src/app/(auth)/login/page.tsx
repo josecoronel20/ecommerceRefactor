@@ -7,16 +7,36 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { UserLogin } from '@/types/auth';
 import { authApi } from '@/lib/api/auth';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const loginSchema = z.object({
+  user: z
+    .string()
+    .min(1, 'El usuario es requerido')
+    .min(3, 'El usuario debe tener al menos 3 caracteres')
+    .max(20, 'El usuario no puede tener más de 20 caracteres')
+    .regex(/^[a-zA-Z0-9_]+$/, 'El usuario solo puede contener letras, números y guiones bajos'),
+  password: z
+    .string()
+    .min(1, 'La contraseña es requerida')
+    .min(6, 'La contraseña debe tener al menos 6 caracteres')
+    .max(50, 'La contraseña no puede tener más de 50 caracteres'),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<{ user: string; password: string }>();
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onChange', // Valida mientras el usuario escribe
+  });
   const [unFoundUser, setUnFoundUser] = useState(false);
-
 
   // Manejador del formulario de inicio de sesión
   const onSubmit = handleSubmit(async (data) => {
@@ -50,14 +70,14 @@ const LoginPage = () => {
               type="text"
               id="user"
               placeholder="Usuario"
-              {...register('user', {
-                required: {
-                  value: true,
-                  message: 'El usuario es requerido',
-                },
-              })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              {...register('user')}
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.user ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {errors.user && (
+              <p className="text-red-500 text-sm mt-1">{errors.user.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -68,26 +88,29 @@ const LoginPage = () => {
               type="password"
               id="password"
               placeholder="Contraseña"
-              {...register('password', {
-                required: {
-                  value: true,
-                  message: 'La contraseña es requerida',
-                },
-              })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              {...register('password')}
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.password ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            )}
           </div>
 
-          {errors.user && <p className="text-red-500">{errors.user.message}</p>}
-          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
           {unFoundUser && <p className="text-red-500">Usuario o contraseña incorrectos</p>}
 
-          <Button type="submit" variant="violet" className="w-full">
-            Iniciar sesión
+          <Button 
+            type="submit" 
+            variant="violet" 
+            className="w-full"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </Button>
 
           <Button variant="outline" className="w-full" asChild>
-            <Link href="/login/register">Registrarse</Link>
+            <Link href="/register">Registrarse</Link>
           </Button>
         </form>
       </section>

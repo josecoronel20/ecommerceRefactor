@@ -15,7 +15,7 @@ import {
 import { CartProduct } from '@/types/cart';
 import { User } from '@/types/auth';
 import useGetUser from '@/hooks/useGetUser';
-import { authApi } from '@/lib/api/auth';
+import { userApi } from '@/lib/api/user';
 
 const Cart = () => {
   const { user } = useGetUser();
@@ -40,13 +40,13 @@ const Cart = () => {
         total: totalPrice,
       };
 
-      // Actualizar usuario con la nueva compra
+      // Actualizar usuario con solo la nueva compra
       const updatedUser = {
         ...user,
-        purchases: user?.purchases ? [...user.purchases, nuevaCompra] : [nuevaCompra],
+        purchases: [nuevaCompra]
       };
 
-      authApi.updateUser(updatedUser as User);
+      userApi.updateUser(updatedUser as User);
 
       // Limpiar carrito y mostrar confirmación
       setShowConfirmation(true);
@@ -54,7 +54,7 @@ const Cart = () => {
       setTimeout(() => {
         setShowConfirmation(false);
         toggle();
-      }, 5000);
+      }, 2000);
     } catch (error) {
       console.error('Error al procesar la compra:', error);
     }

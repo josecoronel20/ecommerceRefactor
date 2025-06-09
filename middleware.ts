@@ -22,6 +22,11 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
+  // Permitir acceso a /register sin token
+  if (pathname.startsWith('/register')) {
+    return NextResponse.next();
+  }
+
   return NextResponse.next();
 }
 

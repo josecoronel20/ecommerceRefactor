@@ -4,37 +4,45 @@ import { API_AUTH_URL } from '@/lib/utils/constants';
 
 export const authApi = {
   // Inicia sesión
-  login: async (user: UserLogin) => {
+  login: async (userData: UserLogin) => {
     try {
       const response = await fetch(`${API_AUTH_URL}/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(userData),
       });
 
-      //obtiene el usuario 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Error en el login');
+      }
 
+      const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error al iniciar sesión:', error);
+      console.error('Error en el login:', error);
       throw error;
     }
   },
 
   //cerrar sesión
   logout: async () => {
-    const response = await fetch(`${API_AUTH_URL}/logout`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      const response = await fetch(`${API_AUTH_URL}/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
 
-    if (response.ok) {
-      window.location.replace('/login');
+      if (!response.ok) {
+        throw new Error('Error en el logout');
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Error en el logout:', error);
+      throw error;
     }
   },
 
@@ -56,53 +64,5 @@ export const authApi = {
     }
   },
 
-  // Elimina un usuario
-  deleteUser: async (id: number) => {
-    try {
-      const response = await fetch(`${API_AUTH_URL}/users/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      Cookies.remove('token');
-      return response;
-    } catch (error) {
-      console.error('Error al eliminar usuario:', error);
-      throw error;
-    }
-  },
-
-  // Actualiza los datos de un usuario específico
-  updateUser: async (currentUser: User) => {
-    //actualiza el usuario en la db
-    try {
-      const idPath = currentUser.id.toString();
-      const response = await fetch(`${API_AUTH_URL}/users/${idPath}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(currentUser),
-      });
-
-      return response;
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
-      throw error;
-    }
-  },
-
-  getUserLogged: async () => {
-    try {
-      const response = await fetch(`/api/auth/me`);
-      const data = await response.json();
-
-      return data.user;
-    } catch (error) {
-      console.error('Error al obtener usuario logueado:', error);
-      throw error;
-    }
-  },
+  
 };

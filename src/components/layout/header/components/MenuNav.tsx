@@ -14,7 +14,7 @@ const MenuNav = () => {
     },
     {
       label: 'Productos',
-      href: '/productos',
+      href: '/products',
     },
   ];
 

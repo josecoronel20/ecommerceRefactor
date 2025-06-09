@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Avatar } from '../../../ui/avatar';
 import { LogOut, User, UserIcon } from 'lucide-react';
 import {
@@ -9,25 +9,32 @@ import {
   DropdownMenuTrigger,
 } from '../../../ui/dropdown-menu';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import useGetUser from '@/hooks/useGetUser';
 import { authApi } from '@/lib/api/auth';
 
 const AvatarComponent = () => {
   const router = useRouter();
-  const { user, mutate } = useGetUser();
+  const pathname = usePathname();
+  const { user, mutate, isLoading } = useGetUser();
+
+  useEffect(() => {
+    if (!user && !isLoading && pathname.startsWith('/profile')) {
+      router.push('/login');
+    }
+  }, [user, isLoading, pathname]);
 
   const handleLogout = async () => {
     await authApi.logout();
+    router.push('/login');
     mutate();
   };
 
   return (
     <DropdownMenu data-testid="DropdownMenu">
       <DropdownMenuTrigger data-testid="DropdownMenuTrigger">
-        <Avatar>
-          <UserIcon />
+        <Avatar className="flex flex-col items-center justify-center">
+          <UserIcon className="text-gray-500" />
         </Avatar>
       </DropdownMenuTrigger>
 
@@ -56,7 +63,7 @@ const AvatarComponent = () => {
             onClick={() => router.push('/login')}
           >
             <User className="h-4 w-4" />
-            <Link href="/login">Iniciar sesión.</Link>
+            <Link href="/login">Iniciar sesión</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       )}

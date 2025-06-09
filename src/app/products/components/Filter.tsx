@@ -1,5 +1,5 @@
 import { Slider } from '@/components/ui/slider';
-import { useGetProduct } from '@/hooks/useGetProduct';
+import { useGetProducts } from '@/hooks/useGetProducts';
 import { ApiProduct } from '@/types/product';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
@@ -20,7 +20,7 @@ const Filter = ({
     });
   }, [category, price, setFilter]);
 
-  const { products } = useGetProduct();
+  const { products } = useGetProducts();
 
   const maxPrice =
     products?.reduce((max: number, product: ApiProduct) => Math.max(max, product.price), 0) ||

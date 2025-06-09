@@ -13,45 +13,36 @@ import useGetUser from '@/hooks/useGetUser';
 import { Skeleton } from '@/components/ui/skeleton';
 import NicknameSection from './NickNameSection';
 import useToggle from '@/hooks/useToggle';
+import { userApi } from '@/lib/api/user';
+import { useRouter } from 'next/navigation';
 
 const InfoUserSection = () => {
   const { user, isLoading, mutate } = useGetUser();
-  const { isOpen, toggle } = useToggle();
+  const router = useRouter();
 
   const handleDeleteAccount = async () => {
     try {
-      await authApi.deleteUser(user?.id as number);
-      authApi.logout();
+      await userApi.deleteUser(user?.id as number);
+      router.push('/login');
     } catch (error) {
       console.error('Error al eliminar cuenta:', error);
     }
   };
 
-  const handleCheckCookies = () => {
-    toggle();
-
-    setTimeout(() => {
-      toggle();
-    }, 1000);
-  };
-
   const handleLogout = async () => {
-    await authApi.logout();
-    mutate();
+    try {
+      await authApi.logout();
+      mutate();
+      router.push('/login');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   };
 
   return (
     <section className="flex flex-col gap-4 justify-center items-center p-4 border border-gray-200 rounded-lg w-full">
       <h1 className="text-2xl font-bold">Mi perfil</h1>
       <h2 className="text-lg font-bold">Perfil de usuario</h2>
-
-      <div>
-        <Button variant="outline" onClick={() => handleCheckCookies()}>
-          Checkear cookies
-        </Button>
-
-        {isOpen && <p>{Cookies.get('token')}</p>}
-      </div>
 
       <div className="flex gap-4 justify-center items-center w-full">
         <div className="flex flex-col gap-4">
@@ -78,7 +69,7 @@ const InfoUserSection = () => {
       </div>
 
       <div>
-        <Button variant="outline" className="w-full" onClick={() => authApi.logout()}>
+        <Button variant="outline" className="w-full" onClick={() => handleLogout()}>
           Cerrar sesión
         </Button>
 
