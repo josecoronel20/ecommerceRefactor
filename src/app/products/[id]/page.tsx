@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ApiProduct } from '@/types/product';
 import AddToCart from '../components/AddToCart';
 import { useRouter } from 'next/navigation';
-import { useGetProduct } from '@/hooks/useGetProduct';
+import { useGetProducts } from '@/hooks/useGetProducts';
 
 interface Props {
   params: {
@@ -17,7 +17,7 @@ interface Props {
 const ProductPage = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
-  const { products, isLoading, error } = useGetProduct();
+  const { products, isLoading, error } = useGetProducts();
 
   if (isLoading) {
     return (
