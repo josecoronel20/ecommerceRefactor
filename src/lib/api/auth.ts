@@ -51,11 +51,17 @@ export const authApi = {
     try {
       const response = await fetch(`${API_AUTH_URL}/register`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al registrar usuario');
+      }
 
       return response;
     } catch (error) {
@@ -63,6 +69,4 @@ export const authApi = {
       throw error;
     }
   },
-
-  
 };

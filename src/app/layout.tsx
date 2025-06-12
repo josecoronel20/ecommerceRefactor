@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import '@/styles/globals.css';
+import './app.css';
 import { Inter } from 'next/font/google';
 import Header from '@/components/layout/header/Header';
 
