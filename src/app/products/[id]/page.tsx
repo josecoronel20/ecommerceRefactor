@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ApiProduct } from '@/types/product';
@@ -18,6 +18,15 @@ const ProductPage = ({ params }: Props) => {
   const { id } = params;
   const router = useRouter();
   const { products, isLoading, error } = useGetProducts();
+
+  useEffect(() => {
+    if (!isLoading && !error && products) {
+      const productExists = products.some((product: ApiProduct) => product.id === parseInt(id));
+      if (!productExists) {
+        router.push('/productos');
+      }
+    }
+  }, [isLoading, error, products, id, router]);
 
   if (isLoading) {
     return (
@@ -59,7 +68,6 @@ const ProductPage = ({ params }: Props) => {
   const dataProduct = products.find((product: ApiProduct) => product.id === parseInt(id));
 
   if (!dataProduct) {
-    router.push('/productos');
     return null;
   }
 
@@ -72,9 +80,10 @@ const ProductPage = ({ params }: Props) => {
           <Image
             src={dataProduct.image}
             alt={dataProduct.title}
-            width={100}
-            height={100}
+            width={500}
+            height={500}
             className="object-contain w-full h-full"
+            priority
           />
         </div>
         <div className="space-y-4">
