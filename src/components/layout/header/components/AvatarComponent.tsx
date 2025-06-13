@@ -49,7 +49,7 @@ const AvatarComponent = () => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="cursor-pointer flex items-center gap-2 text-destructive"
+            className="cursor-pointer flex items-center gap-2 text-[hsl(var(--destructive))]"
             onClick={() => handleLogout()}
           >
             <LogOut className="h-4 w-4" />
