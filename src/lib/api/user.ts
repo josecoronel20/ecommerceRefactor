@@ -54,6 +54,7 @@ export const userApi = {
         }
       });
       const data = await response.json();
+      console.log(data);
 
       return data.user;
     } catch (error) {
