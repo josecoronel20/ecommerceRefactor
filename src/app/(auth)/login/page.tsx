@@ -42,7 +42,7 @@ const LoginPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       const response = await authApi.login(data as UserLogin);
-      if (response.user) {
+      if (response.message === 'Login exitoso') {
         router.push('/');
       } else {
         setUnFoundUser(true);

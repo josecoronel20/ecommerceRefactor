@@ -15,6 +15,8 @@ export const authApi = {
         body: JSON.stringify(userData),
       });
 
+      console.log(response);
+
       if (!response.ok) {
         throw new Error('Error en el login');
       }
