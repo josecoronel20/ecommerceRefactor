@@ -25,9 +25,11 @@ const AvatarComponent = () => {
   }, [user, isLoading, pathname]);
 
   const handleLogout = async () => {
-    await authApi.logout();
-    router.push('/login');
-    mutate();
+    const response = await authApi.logout();
+    if (response.success) {
+      router.push('/login');
+      mutate();
+    }
   };
 
   return (
