@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import 'tailwindcss/tailwind.css';
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
 import Header from '@/components/layout/header/Header';
