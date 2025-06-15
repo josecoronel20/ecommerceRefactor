@@ -17,14 +17,14 @@ import Link from 'next/link';
 import useGetUser from '@/hooks/useGetUser';
 
 const AddToCart = ({ product }: { product: ApiProduct }) => {
-  const { items, addItem, updateItemQuantity } = useCartStore();
+  const { items, addItem, addQuantity } = useCartStore();
   const isInCart = items.some((item: CartProduct) => item.id === product.id);
   const { user } = useGetUser();
 
   const handleAddToCart = () => {
     // Si el producto ya está en el carrito, se actualiza la cantidad
-    if (isInCart && product.quantity) {
-      updateItemQuantity(product.id, product.quantity + 1);
+    if (isInCart) {
+      addQuantity(product.id);
     } else {
       // Si el producto no está en el carrito, se agrega
       addItem({

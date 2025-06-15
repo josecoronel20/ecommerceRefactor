@@ -68,7 +68,7 @@ const InfoUserSection = () => {
         </div>
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2 w-full">
         <Button variant="outline" className="w-full" onClick={() => handleLogout()}>
           Cerrar sesión
         </Button>
@@ -83,13 +83,16 @@ const InfoUserSection = () => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Eliminar cuenta</DialogTitle>
+              <DialogDescription>
+                ¿Estás seguro de querer eliminar tu cuenta? Esta acción no se puede deshacer.
+              </DialogDescription>
             </DialogHeader>
-            <DialogDescription>
-              <p>¿Estás seguro de querer eliminar tu cuenta?</p>
+            <div className="flex justify-end gap-2 mt-4">
+              
               <Button variant="destructive" onClick={() => handleDeleteAccount()}>
                 Eliminar cuenta
               </Button>
-            </DialogDescription>
+            </div>
           </DialogContent>
         </Dialog>
       </div>

@@ -5,14 +5,17 @@ import { Button } from '../../../ui/button';
 import { CartProduct } from '@/types/cart';
 
 const CartCard = ({ product }: { product: CartProduct }) => {
-  const { removeItem, updateItemQuantity } = useCartStore();
+  const { removeItem, addQuantity, subtractQuantity } = useCartStore();
 
   const handleRemoveItem = () => {
     removeItem(product.id);
   };
 
-  const handleUpdateItemQuantity = (quantity: number) => {
-    updateItemQuantity(product.id, quantity);
+  const handleAddQuantity = () => {
+    addQuantity(product.id);
+  };
+  const handleSubtractQuantity = () => {
+    subtractQuantity(product.id);
   };
 
   return (
@@ -24,14 +27,14 @@ const CartCard = ({ product }: { product: CartProduct }) => {
         <div className="flex gap-2 items-center">
           <Button
             variant="outline"
-            onClick={() => product.quantity && handleUpdateItemQuantity(product.quantity - 1)}
+            onClick={() => handleSubtractQuantity()}
           >
             -
           </Button>
           <p>{product.quantity}</p>
           <Button
             variant="outline"
-            onClick={() => product.quantity && handleUpdateItemQuantity(product.quantity + 1)}
+            onClick={() => handleAddQuantity()}
           >
             +
           </Button>

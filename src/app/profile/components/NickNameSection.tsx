@@ -37,7 +37,7 @@ const NickNameSection = () => {
     <div className="flex flex-row-reverse justify-between">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">
+          <Button variant="outline" data-testid="edit-nickname-button">
             <Pencil />
           </Button>
         </DialogTrigger>

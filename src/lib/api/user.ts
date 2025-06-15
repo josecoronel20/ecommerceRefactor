@@ -15,6 +15,8 @@ export const userApi = {
         },
       });
 
+      console.log(response);
+
       return response;
     } catch (error) {
       console.error('Error al eliminar usuario:', error);

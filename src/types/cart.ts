@@ -39,6 +39,7 @@ export interface CartItem {
     addItem: (_item: CartItem) => void;
     removeItem: (_id: number) => void;
     clearCart: () => void;
-    updateItemQuantity: (_id: number, _quantity: number) => void;
+    addQuantity: (_id: number) => void;
+    subtractQuantity: (_id: number) => void;
   }
   
