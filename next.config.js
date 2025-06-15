@@ -10,15 +10,8 @@ const nextConfig = {
     JWT_SECRET: process.env.JWT_SECRET,
   },
   experimental: {
-    optimizeCss: false
+    optimizeCss: false,
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader', 'postcss-loader'],
-    });
-    return config;
-  }
 };
 
 module.exports = nextConfig;
